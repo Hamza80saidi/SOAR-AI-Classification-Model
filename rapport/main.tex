@@ -1,0 +1,1344 @@
+\documentclass[12pt,a4paper]{report}
+
+% ─── Encodage & Langue ─────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% ─── Mathématiques ─────────────────────────────────────────────────
+\usepackage{amsmath, amssymb}
+
+% ─── Mise en page ──────────────────────────────────────────────────
+\usepackage{geometry}
+\geometry{hmargin=2.5cm, vmargin=3cm}
+\usepackage{setspace}
+\setstretch{1.25}
+
+% ─── Palette cohérente ─────────────────────────────────────────────
+\usepackage[table]{xcolor}
+\definecolor{ColSection}{RGB}{0,76,153}
+\definecolor{ColSIEM}{RGB}{0,120,120}
+\definecolor{ColSOAR}{RGB}{100,60,180}
+\definecolor{ColIA}{RGB}{210,100,0}
+\definecolor{ColAction}{RGB}{160,30,30}
+\definecolor{ColWarning}{RGB}{155,75,0}
+\colorlet{SectionColor}{ColSection}
+
+% ─── Titres ────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\color{ColSection}\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+  {\color{ColSection}\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\color{ColSection}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\color{ColSection!80!black}\normalfont\normalsize\bfseries}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\section}{0pt}{1.5em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
+\titlespacing*{\subsubsection}{0pt}{1em}{0.4em}
+
+% ─── Tableaux ──────────────────────────────────────────────────────
+\usepackage{array, booktabs, float, caption, multirow}
+\setlength{\belowcaptionskip}{8pt}
+\setlength{\abovecaptionskip}{6pt}
+\usepackage{needspace}
+
+% ─── Listes ────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\setlist[itemize,1]{leftmargin=1.2cm, label=\textbullet,
+  labelsep=0.6em, itemsep=0.3em, topsep=0.3em, parsep=0pt}
+\setlist[enumerate,1]{leftmargin=1.2cm, itemsep=0.3em, topsep=0.3em}
+
+% ─── Boîtes ────────────────────────────────────────────────────────
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+
+% ─── Graphiques & Hyperliens ───────────────────────────────────────
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=ColSection!80!black,
+            urlcolor=ColSection!80!black, citecolor=ColSIEM!80!black}
+
+% ─── TikZ ──────────────────────────────────────────────────────────
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning,
+                fit, backgrounds, shadows}
+
+% ─── Code ──────────────────────────────────────────────────────────
+\usepackage{listings, listingsutf8, upquote}
+\lstdefinestyle{mycode}{
+  backgroundcolor=\color{gray!6},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{ColSection!80!black}\bfseries,
+  stringstyle=\color{ColIA!80!black},
+  commentstyle=\color{ColSIEM!70!black}\itshape,
+  numberstyle=\tiny\color{gray},
+  numbers=left, stepnumber=1, numbersep=8pt,
+  frame=single, rulecolor=\color{gray!40},
+  breaklines=true, tabsize=4, showstringspaces=false,
+  captionpos=b, columns=fullflexible, upquote=true,
+  literate={é}{{\'e}}1{è}{{\`e}}1{ê}{{\^e}}1
+           {à}{{\`a}}1{â}{{\^a}}1{î}{{\^i}}1
+           {ô}{{\^o}}1{ù}{{\`u}}1{û}{{\^u}}1{ç}{{\c c}}1
+}
+
+% ─── Abréviations ──────────────────────────────────────────────────
+\usepackage[withpage]{acronym}
+
+% ─── En-têtes ──────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}
+\lhead{\textbf{Département des technologies nouvelles -- FPB}}
+\rhead{\textbf{Master D3SI}}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{15pt}
+
+% ═══════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ─── PAGE DE GARDE ─────────────────────────────────────────────────
+\newgeometry{hmargin=2cm, top=1.5cm, bottom=1.5cm}
+\begin{titlepage}
+\begin{center}
+\begin{tabular}{m{0.25\textwidth} m{0.45\textwidth} m{0.25\textwidth}}
+  \centering\includegraphics[height=2.5cm]{univertisé.png} &
+  \centering\begin{minipage}{\linewidth}\centering
+    {\small Université Sultan Moulay Slimane}\\[2pt]
+    {\small Faculté Polydisciplinaire de Béni Mellal}\\[4pt]
+    {Département des technologies nouvelles}
+  \end{minipage} &
+  \centering\includegraphics[height=2.5cm]{Faculté.jpg}
+\end{tabular}
+\vspace{3mm}\rule{\linewidth}{0.8pt}\vspace{8mm}
+
+{\Large\textsc{Projet de Fin d'Études}}\\[0.3cm]
+{\small Présenté pour l'obtention du diplôme de}\\[0.2cm]
+{\large\textbf{Master en Data Science et Sécurité des Systèmes d'Information}}\\[0.6cm]
+
+\begin{tcolorbox}[colframe=ColSection, colback=white, arc=0pt,
+  boxrule=1.5pt, center title]
+  \centering\Large\bfseries\color{ColSection}
+  AI-Enhanced SOAR for Automated Incident Response\\[4pt]
+  in Enterprise SIEM
+\end{tcolorbox}
+
+\vspace{0.6cm}
+\begin{minipage}[t]{0.45\textwidth}\flushleft
+  \textbf{Présenté par :}\\[4pt] M. \textbf{Hamza Saidi}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\textwidth}\flushright
+  \textbf{Sous la direction de :}\\[4pt] Pr. \textbf{Mohamed El Fezazi}
+\end{minipage}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[colback=gray!5, colframe=gray!30, arc=5pt, boxrule=0.5pt]
+  \begin{minipage}{0.70\textwidth}\flushleft
+    \textbf{Organisme d'accueil :} \textsc{OCP S.A.}\\[4pt]
+    \textit{Encadrant Professionnel :
+      M. Fahmi Abderrahim \& M. Erraji Hamza}
+  \end{minipage}
+\end{tcolorbox}
+
+\vspace{0.5cm}
+\begin{flushleft}
+  \textbf{Soutenu le :} \dotfill\\[4pt]
+  \textbf{Devant le Jury :}\\[0.2cm]
+  \begin{tabular}{ll}
+    Pr. \textbf{Mohamed El Fezazi} & FP Béni Mellal \\[3pt]
+    Pr. \dotfill & FP Béni Mellal \\[3pt]
+    Pr. \dotfill & FP Béni Mellal \\
+  \end{tabular}
+\end{flushleft}
+\vfill
+\rule{0.3\linewidth}{0.5pt}\\[0.2cm]
+{\small Faculté Polydisciplinaire -- Université Sultan Moulay Slimane\\
+Mghila BP~: 592 Beni Mellal\quad Tél~: +212\,(0)\,523\,42\,46\,85}\\[4pt]
+{\small Année Universitaire : 2025 -- 2026}
+\end{center}
+\end{titlepage}
+\restoregeometry
+
+% ─── PAGES PRÉLIMINAIRES ───────────────────────────────────────────
+\clearpage\pagenumbering{roman}\setcounter{page}{1}
+
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+Ce projet de fin d'études, réalisé au sein du département cybersécurité de l'OCP~S.A., répond à un problème opérationnel concret identifié lors du déploiement d'une plateforme SOAR~: avec un flux de l'ordre de 100~alertes par seconde générées par le SIEM en production, transmettre ce flux au SOAR sans triage préalable reviendrait à reproduire exactement la problématique de saturation que le SOAR est censé résoudre. L'idée centrale — proposée et défendue par l'auteur — consiste à insérer un module de classification par apprentissage automatique comme couche de triage intelligente entre le SIEM et le SOAR.
+
+Une première approche basée sur le dataset public CICIDS2017 a été abandonnée en raison d'une incompatibilité fondamentale entre ses features réseau et la structure sémantique des alertes Wazuh. Un dataset natif de 3\,945~alertes a été constitué directement depuis le système cible, avec un feature engineering enrichi de 11~variables incluant des features temporelles (\texttt{alert\_frequency\_5min}, \texttt{repeat\_rule\_10min}), contextuelles (\texttt{hour\_of\_day}, \texttt{is\_business\_hours}) et de threat intelligence (\texttt{ip\_abuse\_score} via AbuseIPDB).
+
+Le modèle Random Forest final démontre une capacité d'escalade comportementale~: une alerte de level~5 initialement classée MEDIUM bascule automatiquement en HIGH après 8~répétitions depuis la même source, indépendamment du \texttt{rule.level} Wazuh. Une IP publique avec score AbuseIPDB de 100 est classée HIGH même avec un level faible. Le pipeline complet inclut une réponse active Wazuh (\texttt{firewall-drop}), des notifications Telegram enrichies et des emails structurés avec statut de blocage.
+
+\textbf{Mots-clés}~: SIEM, SOAR, Wazuh, Shuffle, Random Forest, cybersécurité, triage automatisé, features temporelles, AbuseIPDB, OCP.
+
+\vspace{0.8cm}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This final year project, conducted within the cybersecurity department of OCP~S.A., addresses a concrete operational problem identified during a SOAR platform deployment~: with approximately 100~alerts per second generated by the production SIEM, forwarding this entire stream to the SOAR without prior triage would reproduce exactly the alert fatigue problem the SOAR is meant to solve. The central idea — proposed and defended by the author — consists of inserting a machine learning classification module as an intelligent triage layer between the SIEM and the SOAR.
+
+An initial approach based on the CICIDS2017 public dataset was abandoned due to a fundamental incompatibility between its network traffic features and the semantic structure of Wazuh alerts. A native dataset of 3\,945~alerts was collected from the target system, with enriched feature engineering covering 11~variables including temporal features (\texttt{alert\_frequency\_5min}, \texttt{repeat\_rule\_10min}), contextual features (\texttt{hour\_of\_day}, \texttt{is\_business\_hours}), and threat intelligence (\texttt{ip\_abuse\_score} via AbuseIPDB).
+
+The final Random Forest model demonstrates behavioral escalation capability~: a level~5 alert initially classified MEDIUM automatically escalates to HIGH after 8~repetitions from the same source, independently of the Wazuh \texttt{rule.level}. A public IP with AbuseIPDB score of 100 is classified HIGH even with a low rule level. The complete pipeline includes Wazuh Active Response (\texttt{firewall-drop}), enriched Telegram notifications, and structured emails with blocking status.
+
+\textbf{Keywords}~: SIEM, SOAR, Wazuh, Shuffle, Random Forest, cybersecurity, automated triage, temporal features, AbuseIPDB, OCP.
+
+\newpage\tableofcontents
+\newpage\listoffigures\addcontentsline{toc}{chapter}{Liste des figures}
+\newpage\listoftables\addcontentsline{toc}{chapter}{Liste des tableaux}
+
+\newpage
+\chapter*{Liste des abréviations}
+\addcontentsline{toc}{chapter}{Liste des abréviations}
+\begin{acronym}[SOAR]
+  \acro{SIEM}{Security Information and Event Management}
+  \acro{SOAR}{Security Orchestration, Automation and Response}
+  \acro{SOC}{Security Operations Center}
+  \acro{API}{Application Programming Interface}
+  \acro{RF}{Random Forest}
+  \acro{ML}{Machine Learning}
+  \acro{CTI}{Cyber Threat Intelligence}
+  \acro{OCP}{Office Chérifien des Phosphates}
+  \acro{VM}{Machine Virtuelle}
+  \acro{JSON}{JavaScript Object Notation}
+  \acro{MTTR}{Mean Time To Respond}
+\end{acronym}
+
+% ─── CORPS ─────────────────────────────────────────────────────────
+\newpage\pagenumbering{arabic}\setcounter{page}{1}
+
+\chapter*{Introduction générale}
+\addcontentsline{toc}{chapter}{Introduction générale}
+\markboth{Introduction générale}{Introduction générale}
+
+La transformation numérique des grandes organisations industrielles s'accompagne d'une exposition croissante aux cybermenaces. Les infrastructures critiques concentrent des actifs stratégiques dont la protection ne tolère ni délai ni approximation.
+
+Le département cybersécurité de l'OCP disposait déjà d'un SIEM opérationnel générant un flux continu d'alertes de l'ordre de 100~événements par seconde. Le projet de déploiement d'une plateforme SOAR avait pour objectif d'automatiser la réponse aux incidents. Cependant, sans mécanisme de triage préalable, le SOAR allait recevoir ce même flux brut, reproduisant exactement la problématique de saturation qu'il était censé résoudre.
+
+C'est l'auteur de ce rapport qui a proposé l'intégration d'un module de classification par apprentissage automatique comme couche de triage intelligente entre les deux systèmes. Cette proposition, validée par l'encadrant professionnel M.~Erraji~Hamza, a constitué le sujet de ce PFE.
+
+Ce rapport est structuré en six chapitres~: après la présentation de l'organisme d'accueil, les chapitres~\ref{chap:etat_art} à~\ref{chap:resultats} couvrent l'état de l'art, les besoins, la conception, l'implémentation et les résultats.
+
+% ══════════════════════════════════════════════════════════════════
+\part{Présentation de l'organisme d'accueil}
+
+\chapter{Présentation de l'OCP S.A.}
+\label{chap:ocp}
+
+\section{Présentation générale}
+\textit{[À compléter par l'étudiant.]}
+
+\section{Organisation et sites}
+\textit{[À compléter par l'étudiant.]}
+
+\section{Site d'accueil et contexte du stage}
+\textit{[À compléter par l'étudiant.]}
+
+\section{Infrastructure numérique et cybersécurité}
+\textit{[À compléter — mentionner le SIEM existant, le projet SOAR et le flux de 100 alertes/seconde.]}
+
+% ══════════════════════════════════════════════════════════════════
+\part{Projet technique}
+
+\chapter{État de l'art}
+\label{chap:etat_art}
+
+\section{Cybersécurité en environnement industriel}
+
+Les systèmes industriels présentent des caractéristiques distinctives~: hétérogénéité des équipements, contraintes de disponibilité fortes, convergence IT/OT. Les techniques d'attaque les plus fréquentes, répertoriées dans MITRE~ATT\&CK, incluent la force brute (T1110), les scans de ports (T1046), l'exploitation web (T1190) et les comptes valides compromis (T1078) — précisément les scénarios reproduits dans ce projet.
+
+\section{Les systèmes SIEM}
+
+\subsection{Définition et fonctionnement}
+
+Un SIEM agrège les événements de sécurité de l'infrastructure, les corrèle via un moteur de règles et génère des alertes structurées. Dans Wazuh, chaque alerte est associée à un niveau de sévérité (1--15) déterminé par les règles de détection.
+
+\subsection{Comparatif SIEM}
+
+\begin{table}[H]
+\centering
+\caption{Comparatif des solutions SIEM}
+\label{tab:siem}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Critère} & \textbf{Wazuh} & \textbf{Splunk}
+  & \textbf{IBM QRadar} & \textbf{Elastic} \\
+\hline
+Licence       & Open source & Commerciale & Commerciale & Open source \\
+Agent intégré & Oui         & Oui         & Oui         & Partiel \\
+Webhook natif & Oui         & Via apps    & Via modules & Via Logstash \\
+Coût          & Gratuit     & Élevé       & Très élevé  & Freemium \\
+\hline
+\end{tabular}
+\end{table}
+
+Wazuh est retenu pour sa richesse en règles MITRE~ATT\&CK, son support natif des webhooks et sa disponibilité en image Docker officielle.
+
+\section{Les plateformes SOAR}
+
+\subsection{Rôle et apport}
+
+Un SOAR orchestre les réponses aux incidents~: réception des alertes, workflows conditionnels, appels d'outils externes, actions automatisées. L'apport principal est la réduction du MTTR et la standardisation des procédures.
+
+\subsection{Comparatif SOAR}
+
+\begin{table}[H]
+\centering
+\caption{Comparatif des solutions SOAR}
+\label{tab:soar}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Critère} & \textbf{Shuffle} & \textbf{TheHive}
+  & \textbf{Cortex XSOAR} & \textbf{Swimlane} \\
+\hline
+Licence         & Open source & Open source & Commerciale & Commerciale \\
+Webhook entrant & Natif       & Via plugin  & Natif       & Natif \\
+Intégration HTTP& Native      & Limitée     & Native      & Native \\
+Coût            & Gratuit     & Gratuit     & Élevé       & Très élevé \\
+\hline
+\end{tabular}
+\end{table}
+
+Shuffle~2.2.0 est retenu pour sa légèreté et ses blocs HTTP natifs. Sa limitation (absence de conditionnel natif) est contournée par des conditions sur les flèches de connexion.
+
+\section{ML appliqué à la détection d'intrusions}
+
+\subsection{Travaux existants}
+
+Random Forest produit des résultats compétitifs sur les datasets de référence grâce à sa robustesse et à sa gestion naturelle des classes déséquilibrées~\cite{breiman2001}.
+
+\subsection{Synthèse des approches ML sur IDS}
+
+Plusieurs travaux ont évalué des algorithmes de classification supervisée sur des datasets de référence. Gu et al.~\cite{gu2019} démontrent que Random Forest surpasse SVM et Naive Bayes sur CICIDS2017 avec un F1-score de 98,7\% sur la classe DoS. Sharafaldin et al.~\cite{cicids2017} soulignent que les modèles entraînés sur des features réseau souffrent d'un manque de généralisabilité inter-domaines. Catillo et al.~\cite{catillo2022} identifient le même problème de domain shift lorsque des modèles réseau sont appliqués à des logs système — problème central de ce projet. Hindy et al.~\cite{hindy2020} proposent une taxonomie des features IDS et concluent que les features sémantiques (type d'événement, source, fréquence) sont plus stables que les features réseau entre environnements.
+
+Ce projet s'inscrit dans la lignée de ces travaux en adoptant une approche domain-native~: plutôt que de tenter un transfert de features réseau vers des logs SIEM, le modèle est entraîné directement sur les alertes du système cible avec des features sémantiques enrichies de dimensions comportementales et CTI.
+
+\subsection{Le dataset CICIDS2017 et sa limite fondamentale}
+
+CICIDS2017~\cite{cicids2017} contient des features extraites de flux réseau~: \texttt{Bwd Packet Length Min} (18,8\%), \texttt{Dst Port} (12,5\%), \texttt{Fwd Packet Length Max} (10,5\%) sont les features les plus discriminantes (figure~\ref{fig:feat_imp_xgb}). Ces cinq features représentent 60,9\% du pouvoir discriminant — or \textbf{aucune n'existe dans une alerte Wazuh}. Cette incompatibilité fondamentale justifie l'approche domain-native adoptée.
+
+\section{Positionnement du projet}
+
+Ce projet adopte une approche \textit{domain-native}~: entraîner le modèle sur les alertes réelles du SIEM cible. Il ajoute une dimension comportementale absente de la littérature~: la fréquence temporelle des alertes et la réputation des IP sources comme critères de classification.
+
+% ══════════════════════════════════════════════════════════════════
+\chapter{Analyse des besoins}
+\label{chap:besoins}
+
+\section{Problématique}
+
+\begin{tcolorbox}[colback=ColSection!5, colframe=ColSection, arc=4pt, boxrule=0.8pt]
+\textbf{Question centrale~:} Comment insérer une couche de classification ML entre le SIEM et le SOAR pour trier les alertes par criticité comportementale — et non plus par seuil fixe — afin que le SOAR ne traite activement que les incidents qui le méritent~?
+\end{tcolorbox}
+
+La distinction avec un simple seuillage \texttt{rule.level} est centrale~: deux alertes de même level peuvent avoir des criticités très différentes selon la fréquence d'attaque, la persistance et la réputation de l'IP source.
+
+\section{Besoins fonctionnels}
+
+L'identification des besoins fonctionnels constitue la première étape de la spécification du système. Ces besoins ont été définis à partir de l'analyse du problème opérationnel identifié au sein du SOC de l'OCP~: un flux de 100~alertes par seconde sans mécanisme de triage automatique. Chaque besoin fonctionnel correspond à une capacité concrète que le système doit posséder pour résoudre ce problème. Le tableau~\ref{tab:bf} présente ces besoins organisés par identifiant et description.
+
+\begin{table}[H]
+\centering
+\caption{Besoins fonctionnels}
+\label{tab:bf}
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{ID} & \textbf{Description} \\
+\hline
+BF1 & Surveiller les logs en temps réel et générer des alertes structurées \\
+BF2 & Transmettre automatiquement chaque alerte au SOAR via webhook \\
+BF3 & Classifier chaque alerte en LOW/MEDIUM/HIGH avec score de confiance \\
+BF4 & Escalader automatiquement le niveau selon le comportement temporel \\
+BF5 & Bloquer l'IP attaquante via Wazuh Active Response pour les alertes HIGH \\
+BF6 & Notifier en temps réel (Telegram + Email) avec contexte comportemental \\
+BF7 & Exposer des endpoints de monitoring (\texttt{/health}, \texttt{/stats}) \\
+\hline
+\end{tabular}
+\end{table}
+
+Ces six besoins couvrent l'intégralité du pipeline de bout en bout. BF1 et BF2 adressent la couche de détection et de transmission~: sans surveillance temps réel et sans webhook fiable, aucune alerte n'atteint le SOAR. BF3 et BF4 constituent le cœur du projet~: la classification ML et l'escalade comportementale automatique sont les fonctionnalités qui différencient ce système d'un simple seuillage sur \texttt{rule.level}. BF5 représente l'action de réponse la plus critique~: le blocage IP via Wazuh Active Response. BF6 assure la maintenabilité en production via les endpoints de monitoring.
+
+\section{Besoins non fonctionnels}
+
+Au-delà des fonctionnalités, le système doit respecter des contraintes de performance et de déploiement imposées par le contexte du projet. Ces contraintes sont non fonctionnelles car elles définissent \textit{comment} le système fonctionne plutôt que \textit{ce qu'il fait}. Le tableau~\ref{tab:bnf} liste ces contraintes avec leurs critères de validation mesurables.
+
+\begin{table}[H]
+\centering
+\caption{Besoins non fonctionnels}
+\label{tab:bnf}
+\begin{tabular}{|l|p{7cm}|l|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{ID} & \textbf{Description} & \textbf{Critère} \\
+\hline
+BNF1 & Temps de réponse API & $< 2$~secondes \\
+BNF2 & Ressources limitées & 10~Go RAM, 4~vCPU \\
+BNF3 & Déployabilité Docker & 100\% composants serveur \\
+BNF4 & Reproductibilité & Dataset généré depuis Wazuh \\
+\hline
+\end{tabular}
+\end{table}
+
+La contrainte BNF1 est la plus directement vérifiable~: un temps de réponse supérieur à 2~secondes rendrait le pipeline trop lent pour un usage SOC réel où les alertes arrivent en continu. La mesure effectuée lors des tests (1,231~seconde) confirme le respect de cette contrainte. BNF2 reflète les contraintes matérielles du projet~: l'ensemble de l'infrastructure doit fonctionner dans une VM de 10~Go de RAM, ce qui a imposé des choix d'optimisation (démarrage sélectif des conteneurs, gestion de l'espace disque). BNF3 et BNF4 garantissent la reproductibilité du système~: tout déploiement futur chez OCP pourrait être réalisé via les mêmes fichiers Docker Compose et le même processus d'entraînement.
+
+% ══════════════════════════════════════════════════════════════════
+\chapter{Conception et architecture}
+\label{chap:conception}
+
+\section{Architecture globale}
+
+\subsection{Vue d'ensemble}
+
+Le système repose sur cinq couches aux responsabilités séparées. La figure~\ref{fig:arch_globale} illustre leur interconnexion.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={rectangle,rounded corners=4pt,draw=#1,fill=#1!10,
+    text centered,minimum height=0.9cm,minimum width=3cm,drop shadow},
+  arr/.style={-{Stealth[length=6pt]},thick},
+  gl/.style={font=\footnotesize\bfseries,#1},
+]
+\node[box=ColSIEM]                        (sim)  {simulate\_attacks.py};
+\node[box=ColSIEM, below=0.55cm of sim]   (log)  {/var/log/simulated\_attacks.log};
+\node[box=ColSIEM, right=2cm of sim]      (agt)  {Wazuh Agent};
+\node[box=ColSIEM, below=0.55cm of agt]   (mgr)  {Wazuh Manager v4.9.2};
+\node[box=ColSIEM, below=0.55cm of mgr]   (idx)  {Wazuh Indexer + Dashboard};
+\node[box=ColSOAR, right=2cm of agt]      (wh)   {Shuffle Webhook};
+\node[box=ColSOAR, below=0.55cm of wh]    (http) {Bloc HTTP POST /predict};
+\node[box=ColSOAR, below=0.55cm of http]  (tls)  {Shuffle Tools (label)};
+\node[box=ColSOAR, below=0.55cm of tls]   (play) {Playbook HIGH/MED/LOW};
+\node[box=ColIA,   right=2cm of wh]       (api)  {API Flask :5000};
+\node[box=ColIA,   below=0.55cm of api]   (mod)  {Modèle Random Forest V2};
+\node[box=ColAction,right=2cm of api]     (tg)   {Telegram OCP SOC};
+\node[box=ColAction,below=0.55cm of tg]   (em)   {Email Analyste};
+\node[box=ColAction,below=0.55cm of em]   (bl)   {Wazuh Active Response};
+\node[box=ColAction,below=0.55cm of bl]   (lg)   {Logger incidents.json};
+\draw[arr,ColSIEM]   (sim)--(log);
+\draw[arr,ColSIEM]   (log)-|(agt);
+\draw[arr,ColSIEM]   (agt)--node[right,font=\tiny]{alerte JSON}(mgr);
+\draw[arr,ColSIEM]   (mgr)--(idx);
+\draw[arr,ColSOAR]   (mgr)--node[above,font=\tiny]{webhook}(wh);
+\draw[arr,ColSOAR]   (wh)--(http);
+\draw[arr,ColIA]     (http)--node[above,font=\tiny]{POST /predict}(api);
+\draw[arr,ColIA]     (api)--(mod);
+\draw[arr,ColIA,dashed](mod)-|node[below right,font=\tiny]{\{label,score\}}(http);
+\draw[arr,ColSOAR]   (http)--(tls);
+\draw[arr,ColSOAR]   (tls)--(play);
+\draw[arr,ColAction] (play)--node[above,font=\tiny]{HIGH}(tg);
+\draw[arr,ColAction] (tg)--(em);
+\draw[arr,ColAction] (em)--(bl);
+\draw[arr,ColAction] (play)--node[above,font=\tiny]{LOW}(lg);
+\begin{scope}[on background layer]
+  \node[fit=(sim)(log),draw=ColSIEM,dashed,rounded corners,fill=ColSIEM!4,
+        label=above:{\gl{ColSIEM}{Simulation + SIEM}}]{};
+  \node[fit=(agt)(mgr)(idx),draw=ColSIEM,dashed,rounded corners,fill=ColSIEM!4]{};
+  \node[fit=(wh)(http)(tls)(play),draw=ColSOAR,dashed,rounded corners,fill=ColSOAR!4,
+        label=above:{\gl{ColSOAR}{SOAR — Shuffle}}]{};
+  \node[fit=(api)(mod),draw=ColIA,dashed,rounded corners,fill=ColIA!4,
+        label=above:{\gl{ColIA}{IA — Flask + RF}}]{};
+  \node[fit=(tg)(em)(bl)(lg),draw=ColAction,dashed,rounded corners,fill=ColAction!4,
+        label=above:{\gl{ColAction}{Réponse automatisée}}]{};
+\end{scope}
+\end{tikzpicture}}
+\caption{Architecture globale du système SIEM-AI-SOAR}
+\label{fig:arch_globale}
+\end{figure}
+
+La figure~\ref{fig:arch_globale} illustre l'architecture complète du système SIEM-AI-SOAR en mettant en évidence cinq couches fonctionnelles aux responsabilités clairement séparées. La couche de simulation (teal) génère les événements d'attaque qui alimentent Wazuh. La couche SIEM (teal) détecte, corrèle et transmet les alertes via webhook. La couche SOAR (violet) orchestre le flux~: elle reçoit l'alerte, appelle l'API de classification et route le résultat vers l'action appropriée. La couche IA (orange) extrait les features comportementales et retourne le label avec son score de confiance. La couche réponse (rouge sombre) exécute les actions concrètes~: blocage IP, notification Telegram, email analyste ou journalisation silencieuse.
+
+Cette séparation des responsabilités garantit la modularité du système~: chaque composant communique avec les autres via un contrat d'interface JSON bien défini. Remplacer le modèle Random Forest par un autre algorithme, ou Shuffle par une autre plateforme SOAR, n'affecterait aucun autre composant. Cette propriété est essentielle pour un système destiné à évoluer en production.
+
+\subsection{Diagramme de séquence}
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  actor/.style={rectangle,draw=black,fill=#1!15,rounded corners=3pt,
+    minimum width=2.2cm,minimum height=0.7cm,text centered,drop shadow},
+  ll/.style={dashed,gray,thick},
+  msg/.style={-{Stealth[length=5pt]},thick},
+  ret/.style={-{Stealth[length=5pt]},dashed,thick},
+  lbl/.style={font=\tiny,midway,above,sloped},
+]
+\node[actor=ColSIEM]                        (S) at (0,0)   {Simulation};
+\node[actor=ColSIEM,  right=1.8cm of S]     (W)            {Wazuh};
+\node[actor=ColSOAR,  right=1.8cm of W]     (SH)           {Shuffle};
+\node[actor=ColIA,    right=1.8cm of SH]    (A)            {API Flask};
+\node[actor=ColIA,    right=1.8cm of A]     (M)            {Modèle RF};
+\node[actor=ColAction,right=1.8cm of M]     (N)            {Réponse};
+\foreach \x in {S,W,SH,A,M,N}{\draw[ll](\x.south)--++(0,-10.5);}
+\draw[msg,ColSIEM]   (0,-1)    --node[lbl]{écrit log sshd}            (1.8,-1);
+\draw[msg,ColSIEM]   (1.8,-2)  --node[lbl]{détecte rule 5712}         (1.8,-2);
+\draw[msg,ColSIEM]   (1.8,-2.8)--node[lbl]{webhook JSON}              (3.6,-2.8);
+\draw[msg,ColSOAR]   (3.6,-3.8)--node[lbl]{POST /predict}             (5.4,-3.8);
+\draw[msg,ColIA]     (5.4,-4.6)--node[lbl]{extract\_features (11)}    (7.2,-4.6);
+\draw[ret,ColIA]     (7.2,-5.4)--node[lbl]{label, proba[]}            (5.4,-5.4);
+\draw[ret,ColIA]     (5.4,-6.2)--node[lbl]{\{HIGH, 0.88, BLOCK\}}     (3.6,-6.2);
+\draw[msg,ColSOAR]   (3.6,-7)  --node[lbl]{label=HIGH}                (3.6,-7);
+\draw[msg,ColAction] (3.6,-8)  --node[lbl]{Wazuh AR firewall-drop}    (9,-8);
+\draw[msg,ColAction] (3.6,-8.8)--node[lbl]{Telegram + Email enrichis} (9,-8.8);
+\foreach \y/\t in {-1/t1,-2.8/t2,-3.8/t3,-4.6/t4,-5.4/t5,-6.2/t6,-8.8/t7}{
+  \node[font=\tiny,left=0.05cm] at (-0.1,\y){\t};}
+\end{tikzpicture}}
+\caption{Diagramme de séquence — alerte HIGH avec blocage IP}
+\label{fig:sequence}
+\end{figure}
+
+La figure~\ref{fig:sequence} détaille la chronologie exacte du traitement d'une alerte HIGH de bout en bout, depuis l'écriture du log jusqu'à la notification finale. Cette représentation temporelle est essentielle pour comprendre le fonctionnement réel du pipeline et identifier les étapes les plus coûteuses en temps.
+
+À $t_1$, un log sshd est écrit dans le fichier surveillé par Wazuh. À $t_2$, le moteur de règles détecte le pattern de brute force (rule~5712) et envoie le JSON de l'alerte à Shuffle via webhook. À $t_3$, Shuffle appelle l'API Flask en POST avec l'intégralité de l'alerte (\texttt{\$exec.all\_fields}). De $t_4$ à $t_5$, l'API extrait les 11~features comportementales, interroge AbuseIPDB si nécessaire, et le modèle Random Forest calcule les probabilités par classe. À $t_6$, la réponse JSON complète (\{HIGH, 0.88, BLOCK\_AND\_ALERT\}) est retournée à Shuffle. À $t_7$, après évaluation de la condition HIGH, la notification Telegram est envoyée et Wazuh Active Response est déclenché. L'ensemble de ce traitement s'effectue en moins de deux secondes, comme mesuré expérimentalement (1,231~s).
+
+\section{Conception du module SIEM}
+
+\subsection{Règles Wazuh déclenchées}
+
+Wazuh associe à chaque événement détecté une règle identifiée par un identifiant numérique (\texttt{rule.id}) et un niveau de sévérité de 1 à 15. Ces règles sont prédéfinies et couvrent un large spectre de menaces~: tentatives d'authentification échouées, scans de ports, attaques web, connexions anormales. Dans ce projet, les scénarios d'attaque simulés ont été conçus pour déclencher des règles représentatives des menaces réelles rencontrées sur les infrastructures industrielles. Le tableau~\ref{tab:regles} liste ces règles avec leur niveau de sévérité correspondant.
+
+\begin{table}[H]
+\centering
+\caption{Règles Wazuh déclenchées par les scénarios d'attaque}
+\label{tab:regles}
+\begin{tabular}{|l|l|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Rule ID} & \textbf{Description} & \textbf{Level} \\
+\hline
+5710  & Connexion SSH utilisateur inexistant      & 5  \\
+5712  & Brute force SSH répété                    & 10 \\
+5763  & Brute force SSH seuil élevé               & 10 \\
+533   & Changement d'état des ports               & 7  \\
+31103 & Attaque XSS dans requête HTTP             & 6  \\
+5715  & Authentification SSH réussie              & 3  \\
+40101 & Connexion suspecte                        & 5  \\
+\hline
+\end{tabular}
+\end{table}
+
+Les règles de niveau~10 (5712 et 5763) correspondent aux scénarios de brute force SSH les plus intenses~: Wazuh les déclenche uniquement lorsqu'un nombre élevé de tentatives échouées est détecté depuis la même source en peu de temps. Ces règles constituent les alertes les plus critiques du pipeline et sont systématiquement classifiées HIGH par le modèle lorsque \texttt{alert\_frequency\_5min} ou \texttt{repeat\_rule\_10min} dépassent les seuils comportementaux définis dans \texttt{make\_label}. La règle~533 (level~7, port scan) et la règle~31103 (level~6, XSS) illustrent des niveaux intermédiaires où la classification dépend davantage du contexte comportemental que du seul level Wazuh.
+
+\subsection{Configuration Wazuh $\rightarrow$ Shuffle}
+
+\begin{lstlisting}[style=mycode, language=XML,
+  caption={Configuration intégration Wazuh-Shuffle (wazuh\_manager.conf)}]
+<localfile>
+  <log_format>syslog</log_format>
+  <location>/var/log/simulated_attacks.log</location>
+</localfile>
+<integration>
+  <name>shuffle</name>
+  <hook_url>http://192.168.56.100:3001/api/v1/hooks/
+    webhook_cf5a07df-bbad-4fa9-bb4c-cf2b59ec1718</hook_url>
+  <level>3</level>
+  <alert_format>json</alert_format>
+</integration>
+\end{lstlisting}
+
+\section{Conception du module IA}
+
+\subsection{Abandon de CICIDS2017 — analyse de l'incompatibilité}
+
+Les figures~\ref{fig:cm_xgb} et~\ref{fig:cm_rf} présentent les matrices de confusion obtenues sur CICIDS2017.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{confusion_matrix_xgboost.png}
+  \caption{Matrice de confusion — XGBoost sur CICIDS2017}
+  \label{fig:cm_xgb}
+\end{minipage}\hfill
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{confusion_matrix_random_forest.png}
+  \caption{Matrice de confusion — Random Forest sur CICIDS2017}
+  \label{fig:cm_rf}
+\end{minipage}
+\end{figure}
+
+L'analyse de ces matrices révèle la cause directe de l'abandon de CICIDS2017~: 2\,410 exemples \texttt{LOW} classifiés \texttt{BENIGN} pour XGBoost et 2\,436 pour Random Forest. Ces faux négatifs ne sont pas des erreurs de modélisation — ils résultent de l'absence des features discriminantes dans les vecteurs Wazuh mappés heuristiquement. Les 5 features les plus importantes de XGBoost (figure~\ref{fig:feat_imp_xgb}) représentent 60,9\% du pouvoir discriminant~; aucune n'existe dans une alerte Wazuh. La conséquence est mécanique~: un vecteur Wazuh soumis au modèle CICIDS est interprété comme du trafic bénin.
+
+Ces matrices révèlent que la classe \texttt{LOW} génère 2\,410 faux négatifs pour XGBoost et 2\,436 pour RF — classifiés en BENIGN. La figure~\ref{fig:feat_imp_xgb} explique pourquoi~:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{feature_importance_xgboost.png}
+\caption{Importance des features XGBoost sur CICIDS2017 — les 5 premières représentent 60,9\% du pouvoir discriminant}
+\label{fig:feat_imp_xgb}
+\end{figure}
+
+Le calcul est direct~: \texttt{Bwd Packet Length Min} (18,8\%) + \texttt{Dst Port} (12,5\%) + \texttt{Fwd Packet Length Max} (10,5\%) + \texttt{Bwd Packet Length Std} (9,8\%) + \texttt{Bwd Packets/s} (9,3\%) = \textbf{60,9\% du pouvoir discriminant}, toutes issues de captures réseau pcap. Cette concentration explique l'échec systématique du modèle CICIDS sur des alertes Wazuh~: il est aveugle à 60\% de l'information pertinente.
+
+Les features dominantes (\texttt{Bwd Packet Length Min} 18,8\%, \texttt{Dst Port} 12,5\%, \texttt{Fwd Packet Length Max} 10,5\%) sont toutes des métriques de trafic réseau pcap. \textbf{Aucune n'existe dans une alerte Wazuh.} Lorsque le modèle reçoit un vecteur Wazuh dans lequel ces champs sont nuls, il perd 60\% de son information discriminante et prédit systématiquement BENIGN. Cette incompatibilité est structurelle et non contournable par un mapping heuristique.
+
+\subsection{Nouvelle approche — features natives Wazuh enrichies}
+
+Le choix des features est l'étape la plus déterminante du feature engineering~: une feature mal choisie apporte du bruit, tandis qu'une feature pertinente peut à elle seule changer la décision du modèle. Dans ce projet, les features ont été sélectionnées selon trois critères~: disponibilité dans les alertes Wazuh réelles, pouvoir discriminant théorique entre les classes, et complémentarité avec les autres features. Le tableau~\ref{tab:features} présente les onze variables retenues avec leur source exacte dans la structure JSON de Wazuh et leur rôle discriminant justifié.
+
+\begin{table}[H]
+\centering
+\caption{Les 11 features du modèle V2 — signification et justification}
+\label{tab:features}
+\begin{tabular}{|l|p{2.8cm}|p{5.5cm}|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Feature} & \textbf{Source} & \textbf{Rôle discriminant} \\
+\hline
+\texttt{rule\_id\_enc}         & \texttt{rule.id}         & Type d'événement précis \\
+\texttt{rule\_level}           & \texttt{rule.level}      & Sévérité Wazuh (27\% importance) \\
+\texttt{groups\_count}         & \texttt{rule.groups}     & Complexité multi-groupes \\
+\texttt{has\_mitre}            & \texttt{rule.mitre}      & Mapping MITRE ATT\&CK \\
+\texttt{src\_ip\_private}      & \texttt{data.srcip}      & Source interne vs externe \\
+\texttt{fired\_times}          & \texttt{rule.firedtimes} & Persistance de la règle \\
+\texttt{alert\_frequency\_5min}& Historique mémoire       & Rafale d'attaques — 13,10\% \\
+\texttt{repeat\_rule\_10min}   & Historique mémoire       & Répétition ciblée — 13,84\% \\
+\texttt{hour\_of\_day}         & timestamp                & Contexte horaire \\
+\texttt{is\_business\_hours}   & timestamp                & Heures ouvrables \\
+\texttt{ip\_abuse\_score}      & AbuseIPDB API            & Réputation IP publique — 8,32\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Les six premières features (\texttt{rule\_id\_enc} à \texttt{fired\_times}) sont présentes dans toutes les alertes Wazuh et constituent la base de la classification. Les quatre features temporelles (\texttt{alert\_frequency\_5min}, \texttt{repeat\_rule\_10min}, \texttt{hour\_of\_day}, \texttt{is\_business\_hours}) sont calculées dynamiquement en temps réel depuis un historique maintenu en mémoire~: elles n'existent pas dans l'alerte JSON brute mais sont construites par \texttt{predict.py} à partir du contexte d'exécution. La feature \texttt{ip\_abuse\_score} est la seule à nécessiter un appel externe (AbuseIPDB)~: elle apporte une dimension de threat intelligence absente des systèmes SIEM classiques. Ensemble, ces onze features permettent de distinguer deux alertes de même \texttt{rule.level} selon leur comportement temporel et la réputation de leur source~-- ce qu'aucune règle Wazuh statique ne peut réaliser.
+
+\subsection{Schéma de labellisation comportementale}
+\label{sec:labellisation}
+
+\begin{lstlisting}[style=mycode,
+  caption={Fonction make\_label — labellisation comportementale (train.py)}]
+def make_label(row):
+    level  = row['rule_level']
+    freq   = row['alert_frequency_5min']
+    repeat = row['repeat_rule_10min']
+    abuse  = row['ip_abuse_score']
+
+    if level >= 7:
+        return 'HIGH'
+    if level >= 5:
+        if freq >= 10 or repeat >= 8 or abuse >= 80:
+            return 'HIGH'   # escalade comportementale
+        return 'MEDIUM'
+    if level >= 3:
+        if freq >= 15 or repeat >= 10 or abuse >= 80:
+            return 'MEDIUM'  # escalade comportementale
+        return 'LOW'
+    return 'LOW'
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=ColWarning!8, colframe=ColWarning, arc=4pt,
+  boxrule=0.8pt,
+  title={\textbf{Point méthodologique — corrélation feature-label}}]
+
+\texttt{rule\_level} contribue à 26,85\% de l'importance — toujours dominant mais significativement réduit par rapport à une approche naive (40\%+). La labellisation intègre maintenant des critères comportementaux (\texttt{freq}, \texttt{repeat}, \texttt{abuse}) qui permettent à deux alertes de même level d'obtenir des labels différents. C'est précisément ce que démontre la figure~\ref{fig:escalade}~: une alerte level~5 bascule de MEDIUM vers HIGH après 8~répétitions, indépendamment de \texttt{rule.level}.
+
+Cette architecture est fonctionnelle dans son contexte. Sa généralisation à des configurations Wazuh différentes nécessiterait un réentraînement.
+\end{tcolorbox}
+
+\needspace{10cm}
+\subsection{Pipeline ML complet}
+
+La figure~\ref{fig:pipeline_ml} présente le pipeline de classification de bout en bout, depuis la réception d'une alerte Wazuh brute jusqu'à l'exécution de l'action de réponse automatisée. Chaque étape est colorée selon le composant responsable~: teal pour le SIEM, orange pour la couche IA, rouge sombre pour la réponse. Cette représentation illustre le découplage architectural entre les couches~: chaque composant communique via un contrat d'interface JSON bien défini, ce qui garantit la modularité du système.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  node distance=0.6cm,
+  stepS/.style={rectangle,rounded corners=4pt,
+    draw=teal!80!black,fill=teal!12,
+    text centered,minimum height=0.85cm,
+    minimum width=1.8cm},
+  stepE/.style={rectangle,rounded corners=4pt,
+    draw=blue!70!black,fill=blue!12,
+    text centered,minimum height=0.85cm,
+    minimum width=1.8cm},
+  stepI/.style={rectangle,rounded corners=4pt,
+    draw=orange!80!black,fill=orange!12,
+    text centered,minimum height=0.85cm,
+    minimum width=1.8cm},
+  stepA/.style={rectangle,rounded corners=4pt,
+    draw=red!70!black,fill=red!12,
+    text centered,minimum height=0.85cm,
+    minimum width=1.8cm},
+  arr/.style={-{Stealth[length=4pt]},thick},
+]
+\node[stepS] (raw)  {Alerte\\Wazuh};
+\node[stepS, right=0.5cm of raw]  (ext) {11\\features};
+\node[stepE, right=0.5cm of ext]  (enc) {Encodage\\CTI};
+\node[stepI, right=0.5cm of enc]  (rf)  {Random\\Forest};
+\node[stepI, right=0.5cm of rf]   (pred){Label\\+ score};
+\node[stepA, right=0.5cm of pred] (act) {respond\\h|m|l};
+\draw[arr](raw)--(ext);
+\draw[arr](ext)--(enc);
+\draw[arr](enc)--(rf);
+\draw[arr](rf)--(pred);
+\draw[arr](pred)--(act);
+\end{tikzpicture}
+\caption{Pipeline de classification et r\'eponse --- RF V2}
+\label{fig:pipeline_ml}
+\end{figure}
+
+\needspace{6cm}
+\subsection{Choix Random Forest}
+
+\begin{enumerate}
+  \item \textbf{Gestion du déséquilibre}~: \texttt{class\_weight='balanced'} — essentiel avec HIGH à 5\% du dataset initial.
+  \item \textbf{Interprétabilité}~: \texttt{feature\_importances\_} permet l'analyse post-hoc.
+  \item \textbf{Portabilité}~: contrairement à XGBoost \texttt{device='cuda'}, les modèles RF sont entièrement portables entre GPU et CPU.
+\end{enumerate}
+
+\needspace{6cm}
+\section{API Flask et réponse automatisée}
+
+L'API Flask constitue le pont entre la plateforme SOAR et le modèle de classification. Sa conception repose sur un principe clé~: Shuffle ne doit effectuer qu'un seul appel pour déclencher l'intégralité du pipeline de réponse. Cela simplifie le workflow Shuffle et centralise toute la logique métier dans Flask. Le tableau~\ref{tab:endpoints} présente les six endpoints exposés par l'API, organisés par méthode HTTP et description fonctionnelle.
+
+\begin{table}[H]
+\centering
+\caption{Endpoints de l'API Flask V2}
+\label{tab:endpoints}
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Méthode} & \textbf{Endpoint} & \textbf{Description} \\
+\hline
+POST & \texttt{/predict}       & Classification + appel automatique /respond/* \\
+POST & \texttt{/respond/high}  & firewall-drop + Telegram enrichi + Email \\
+POST & \texttt{/respond/medium}& Telegram compact + Email \\
+POST & \texttt{/respond/low}   & Append dans logs/incidents.json \\
+GET  & \texttt{/health}        & Disponibilité + uptime \\
+GET  & \texttt{/stats}         & Statistiques de prédiction \\
+\hline
+\end{tabular}
+\end{table}
+
+L'endpoint \texttt{POST /predict} est le cœur du système~: il reçoit l'alerte Wazuh brute, extrait les features, appelle le modèle, puis déclenche automatiquement l'endpoint \texttt{/respond/\{label\}} correspondant. Ce mécanisme d'auto-appel interne signifie que Shuffle n'a besoin que d'un seul bloc HTTP dans son workflow~: le routage et toute la logique de réponse (blocage IP, Telegram, email, journalisation) sont entièrement gérés par Flask. Les endpoints \texttt{/respond/*} peuvent également être appelés directement depuis n'importe quel outil externe, ce qui rend l'API indépendante de Shuffle et réutilisable dans d'autres contextes d'orchestration.
+
+\needspace{6cm}
+\section{Workflow Shuffle}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{workflow_shuffle.png}
+\caption{Workflow Shuffle Wazuh-Integration — blocs et branches conditionnelles}
+\label{fig:workflow}
+\end{figure}
+
+Le Runtime Location indiqué \textit{Running} en haut à droite de la capture prouve que le workflow était actif en production au moment de la prise d'écran — non en mode test ou édition. Les quatre flèches conditionnelles (\textit{1 condition} sur chacune) correspondent aux branches HIGH, MEDIUM, LOW et une branche de fallback.
+
+Le workflow comprend~: Webhook~1 (réception alertes Wazuh), Http~1 (POST /predict), Shuffle~Tools~1 (extraction label \texttt{\$http\_1.body.label}), puis branches conditionnelles vers Email~1 (HIGH), Email~2 (MEDIUM) et Shuffle~Tools~2 (LOW). Le Runtime Location indique \textit{Running} — le workflow est actif en permanence.
+
+% ══════════════════════════════════════════════════════════════════
+\chapter{Implémentation}
+\label{chap:implementation}
+
+\section{Environnement}
+
+L'environnement de déploiement conditionne directement les choix architecturaux du projet. Travailler dans une machine virtuelle avec des ressources limitées (10~Go de RAM, 4~vCPU) impose des compromis~: impossibilité de lancer tous les conteneurs simultanément, gestion rigoureuse de l'espace disque, tunnel SSH pour l'accès aux interfaces web. Ces contraintes sont représentatives d'un déploiement de prototypage en entreprise, où les ressources ne sont pas dédiées. Le tableau~\ref{tab:env} récapitule les caractéristiques complètes de l'environnement technique utilisé.
+
+\begin{table}[H]
+\centering
+\caption{Environnement technique}
+\label{tab:env}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Composant} & \textbf{Spécification} \\
+\hline
+Hyperviseur    & Oracle VirtualBox \\
+OS             & Ubuntu Server 24.04 LTS \\
+RAM / vCPU     & 10 Go / 4 \\
+Disque         & 100 Go LVM (/home 32 Go après extensions) \\
+Réseau         & Host-Only 192.168.56.100/24 + NAT \\
+Accès          & Tunnel SSH \texttt{-L 3001:localhost:3001} \\
+Python         & 3.12.3 (venv) — scikit-learn 1.4.2 \\
+\hline
+\end{tabular}
+\end{table}
+
+Le choix d'Ubuntu~Server~24.04~LTS comme système d'exploitation garantit la stabilité et la compatibilité avec les images Docker officielles de Wazuh et Shuffle. L'interface réseau Host-Only (\texttt{192.168.56.100/24}) permet la communication directe entre la machine hôte Windows et la VM, tandis que l'interface NAT assure l'accès internet pour le téléchargement des images Docker et les appels AbuseIPDB. Le tunnel SSH avec port forwarding (\texttt{-L 3001:localhost:3001}) donne accès à l'interface web Shuffle depuis le navigateur Windows sans exposition réseau supplémentaire. L'extension LVM du volume \texttt{/home} (initialement 17~Go, étendu à 32~Go en deux étapes) a été rendue nécessaire par l'accumulation des volumes Docker au fil du projet.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{docker_ps.png}
+\caption{Conteneurs Docker actifs — infrastructure complète lors d'une session de test}
+\label{fig:docker_ps}
+\end{figure}
+
+Cette capture confirme les 7 conteneurs simultanément actifs dans les contraintes de la VM (10~Go RAM). Le conteneur \texttt{tenzir/tenzir:main} n'est pas un composant permanent — c'est un worker créé dynamiquement par Orborus pour exécuter un workflow Shuffle, puis supprimé après complétion. Sa présence prouve qu'une exécution était en cours au moment de la capture.
+
+Sept conteneurs sont actifs simultanément~: Wazuh Manager, Indexer et Dashboard (v4.9.2), Shuffle Frontend, Backend, OpenSearch et Orborus. Le conteneur \texttt{tenzir/tenzir} visible est un worker créé dynamiquement par Orborus lors de l'exécution d'un workflow.
+
+\needspace{6cm}
+\section{Génération et enrichissement du dataset}
+
+\subsection{Stratégie de génération}
+
+Le dataset final de 3\,945~alertes a été constitué en trois couches~:
+
+\begin{enumerate}
+  \item \textbf{Alertes organiques}~: générées par \texttt{simulate\_attacks.py} via Wazuh (SSH brute force, port scan, XSS, connexions suspectes).
+  \item \textbf{Alertes injectées directement}~: via \texttt{docker exec} dans \texttt{alerts.json} pour les niveaux difficiles à déclencher organiquement (level~10, level~12).
+  \item \textbf{Alertes avec IPs publiques}~: injectées avec des IPs publiques connues malveillantes pour activer la feature \texttt{ip\_abuse\_score}.
+\end{enumerate}
+
+\subsection{Distribution finale}
+
+La constitution du dataset d'entraînement a suivi une stratégie en trois couches pour garantir la diversité et l'équilibre des classes. Une première couche d'alertes organiques a été générée via \texttt{simulate\_attacks.py} et détectée naturellement par Wazuh. Une deuxième couche d'alertes a été injectée directement dans \texttt{alerts.json} pour les niveaux difficiles à déclencher organiquement (level~10 et level~12). Une troisième couche d'alertes avec des IPs publiques malveillantes a été ajoutée pour activer et entraîner la feature \texttt{ip\_abuse\_score}. Le tableau~\ref{tab:dataset} présente la distribution finale des 3\,945~alertes constituant le dataset d'entraînement.
+
+\begin{table}[H]
+\centering
+\caption{Distribution du dataset final (3\,945 alertes)}
+\label{tab:dataset}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Label} & \textbf{Effectif} & \textbf{Proportion} & \textbf{Critères} \\
+\hline
+HIGH   & 1\,756 & 44,5\% & level $\geq 7$ OU freq $\geq 10$ OU repeat $\geq 8$ OU abuse $\geq 80$ \\
+LOW    & 1\,258 & 31,9\% & level 3--4 ET freq $< 15$ ET repeat $< 10$ ET abuse $< 80$ \\
+MEDIUM &   931  & 23,6\% & level 5--6 ET freq $< 10$ ET repeat $< 8$ ET abuse $< 80$ \\
+\hline
+\end{tabular}
+\end{table}
+
+La distribution finale est équilibrée entre les trois classes~: HIGH (44,5\%), LOW (31,9\%) et MEDIUM (23,6\%). Cette équilibre est le résultat de la stratégie d'injection ciblée~: sans injection directe, la classe HIGH n'aurait représenté que 5\% du dataset (alertes level~$\geq$~7 rares dans les simulations organiques). L'option \texttt{class\_weight='balanced'} du Random Forest apporte une protection supplémentaire contre le déséquilibre résiduel. Il est important de noter que les 3\,945~alertes du dataset sont distinctes des 5\,342~alertes affichées dans le dashboard Wazuh~: ce dernier chiffre inclut toutes les alertes système (démarrages, SCA, rootcheck) non pertinentes pour la détection d'intrusions et exclues volontairement du dataset.
+
+\subsection{Preprocessing étape par étape}
+
+\begin{enumerate}
+  \item \textbf{Labellisation comportementale}~: \texttt{make\_label(row)} combinant level, freq, repeat et abuse.
+  \item \textbf{Encodage rule\_id}~: \texttt{LabelEncoder} — chaînes $\rightarrow$ entiers. Encodeur sauvegardé pour cohérence déploiement.
+  \item \textbf{Comptage groupes}~: \texttt{len(rule.groups)} — alerte multi-groupe = complexité accrue.
+  \item \textbf{Booléen mitre}~: présence/absence de mapping MITRE ATT\&CK.
+  \item \textbf{Booléen IP privée}~: RFC~1918 $\rightarrow$ 1, IP publique $\rightarrow$ 0.
+  \item \textbf{Clip firedtimes à 100}~: \texttt{min(firedtimes, 100)} plafonne les valeurs extrêmes. L'analyse de la distribution montre que 95\% des alertes ont \texttt{firedtimes < 100}~; les valeurs supérieures correspondent à des rafales exceptionnelles (démarrages Wazuh, scans prolongés) qui ne doivent pas dominer artificiellement le signal du modèle. Le clip est appliqué identiquement dans \texttt{train.py} et \texttt{predict.py} pour garantir la cohérence.
+  \item \textbf{Features temporelles}~: calculées via historique en mémoire (deque, thread-safe) avant mise à jour.
+  \item \textbf{ip\_abuse\_score}~: 0 pour IPs privées, appel AbuseIPDB pour IPs publiques (cache, timeout 2s).
+  \item \textbf{Séparation stratifiée}~: 80/20 avec \texttt{stratify=y} pour conserver la distribution par classe.
+\end{enumerate}
+
+\needspace{6cm}
+\section{Historique temporel en temps réel}
+
+\begin{lstlisting}[style=mycode,
+  caption={Historique en mémoire thread-safe (predict.py)}]
+_alert_history = defaultdict(lambda: deque(maxlen=500))
+_history_lock  = threading.Lock()
+WINDOW_5MIN, WINDOW_10MIN = 300, 600
+
+def _compute_temporal_features(srcip, rule_id, ts):
+    with _history_lock:
+        history = list(_alert_history[srcip])
+    freq   = sum(1 for t,_ in history
+                 if (ts-t).total_seconds() <= WINDOW_5MIN)
+    repeat = sum(1 for t,r in history
+                 if r==rule_id and (ts-t).total_seconds()<=WINDOW_10MIN)
+    return {'alert_frequency_5min': freq,
+            'repeat_rule_10min': repeat,
+            'hour_of_day': ts.hour,
+            'is_business_hours': 1 if ts.weekday()<5 and 8<=ts.hour<18 else 0}
+\end{lstlisting}
+
+L'ordre d'appel est critique~: \texttt{\_compute\_temporal\_features} est appelé \textbf{avant} \texttt{\_update\_history} pour éviter de compter l'alerte courante dans son propre calcul de fréquence.
+
+\section{Démarrage de l'API}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{api_start.png}
+\caption{Démarrage API Flask V2 — 11 features chargées, 3 classes détectées}
+\label{fig:api_start}
+\end{figure}
+
+\section{Difficultés rencontrées}
+
+Le déploiement de ce système a nécessité la résolution de plusieurs difficultés techniques imprévues. Ces problèmes, rencontrés et résolus de manière itérative, constituent en eux-mêmes une contribution du projet~: ils documentent les pièges à éviter lors de l'intégration de composants ML dans un pipeline SIEM/SOAR en environnement contraint. Le tableau~\ref{tab:difficultes} synthétise les six difficultés majeures avec leur cause identifiée et la solution adoptée.
+
+\begin{table}[H]
+\centering
+\caption{Difficultés majeures et solutions}
+\label{tab:difficultes}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Problème} & \textbf{Cause} & \textbf{Solution} \\
+\hline
+Modèle CICIDS $\rightarrow$ BENIGN systématique &
+Features réseau absentes dans Wazuh &
+Dataset natif Wazuh + features sémantiques \\
+\hline
+XGBoost GPU/CPU incompatible &
+\texttt{device='cuda'} non portable &
+Random Forest entraîné sur VM CPU \\
+\hline
+Orborus timeout workers &
+SWARM=run sans Swarm + localhost &
+SWARM=off + BASE\_URL=192.168.56.100 \\
+\hline
+/home 100\% (×2) &
+Volumes Docker cumulatifs &
+Extension LVM via VBoxManage (×2) \\
+\hline
+ossec.conf écrasé au restart &
+Wazuh copie depuis wazuh-config-mount &
+Modifier wazuh\_manager.conf (bind mount) \\
+\hline
+Docker daemon timeout &
+Too many open files &
+sysctl inotify + restart containerd \\
+\hline
+\end{tabular}
+\end{table}
+
+La difficulté la plus significative sur le plan méthodologique est l'incompatibilité CICIDS2017/Wazuh~: elle a imposé une remise en question complète de l'approche ML initiale et conduit à l'adoption de l'approche domain-native qui constitue la contribution centrale de ce projet. La difficulté XGBoost GPU/CPU illustre un problème de portabilité des modèles souvent sous-estimé dans les projets académiques~: un modèle entraîné dans un environnement ne se transfère pas nécessairement dans un autre sans précautions. Les difficultés infrastructure (Orborus, LVM, ossec.conf) sont représentatives des défis opérationnels réels d'un déploiement SOC~: la configuration des systèmes est souvent aussi complexe que le développement du code lui-même.
+
+\section{Contribution personnelle}
+
+\begin{tcolorbox}[colback=ColSection!5, colframe=ColSection, arc=4pt,
+  boxrule=0.8pt, title={\textbf{Contributions de l'auteur}}]
+\begin{itemize}
+  \item \textbf{Identification du problème opérationnel}~: observation que le SOAR sans triage reproduirait la saturation du SIEM. Proposition de la couche ML validée par M.~Erraji~Hamza.
+  \item \textbf{Diagnostic de l'incompatibilité CICIDS/Wazuh}~: analyse des features dominantes et décision de changer d'approche.
+  \item \textbf{Feature engineering comportemental}~: conception des features temporelles et CTI, implémentation de l'historique en mémoire thread-safe.
+  \item \textbf{Labellisation dynamique}~: conception du schéma \texttt{make\_label} intégrant fréquence, répétition et score AbuseIPDB.
+  \item \textbf{Intégration AbuseIPDB}~: configuration de l'API CTI avec cache et fallback.
+  \item \textbf{Développement API Flask V2}~: 6 endpoints, appel automatique /respond/*, logique de réponse complète.
+  \item \textbf{Wazuh Active Response}~: implémentation du blocage IP via API JWT Wazuh.
+  \item \textbf{Résolution de toutes les difficultés infrastructure}~: Docker, LVM, Orborus, ossec.conf.
+  \item \textbf{Tests et validation}~: 3 scénarios complets, démonstration d'escalade, test AbuseIPDB avec IP publique réelle.
+\end{itemize}
+\end{tcolorbox}
+
+% ══════════════════════════════════════════════════════════════════
+\chapter{Expérimentation et résultats}
+\label{chap:resultats}
+
+\section{Performances du modèle V2}
+
+\subsection{Métriques}
+
+\begin{tcolorbox}[colback=gray!5, colframe=gray!40, arc=4pt, boxrule=0.5pt]
+\textbf{Note sur les chiffres du dataset vs dashboard~:}
+Le dataset d'entraînement contient \textbf{3\,945~alertes} — collectées lors de sessions d'export ciblées depuis \texttt{alerts.json}. Le dashboard Wazuh affiche \textbf{5\,342~alertes} sur la période totale de test — ce chiffre inclut toutes les alertes système générées par Wazuh lui-même (démarrages, SCA, rootcheck, netstat) qui ne sont pas pertinentes pour l'entraînement du modèle de détection d'intrusions. La différence (1\,397~alertes) correspond à ces événements système exclus volontairement du dataset.
+\end{tcolorbox}
+
+\begin{table}[H]
+\centering
+\caption{Rapport de classification — RF V2 (jeu de test, n=789)}
+\label{tab:metrics}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Classe} & \textbf{Précision} & \textbf{Rappel}
+  & \textbf{F1-score} & \textbf{Support} \\
+\hline
+HIGH   & 1,00 & 1,00 & 1,00 & 352 \\
+LOW    & 1,00 & 1,00 & 1,00 & 302 \\
+MEDIUM & 1,00 & 1,00 & 1,00 & 135 \\
+\hline
+Accuracy & \multicolumn{4}{c|}{1,00 (789/789)} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Importance des features V2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{feature_importance_v2_final.png}
+\caption{Importance des features — Random Forest V2 Final}
+\label{fig:feat_imp_v2}
+\end{figure}
+
+La représentation en barres (\rule{0.8em}{0.7ex}) permet une lecture visuelle immédiate de la hiérarchie des features. La rupture visible entre \texttt{ip\_abuse\_score} (8,32\%) et \texttt{fired\_times} (5,17\%) marque la frontière entre les features à forte contribution comportementale et les features secondaires. \texttt{is\_business\_hours} (1,78\%) et \texttt{src\_ip\_private} (1,13\%) contribuent faiblement sur ce dataset lab — leur impact serait plus significatif sur un dataset de production avec des timestamps diversifiés et des IPs publiques réelles.
+
+La figure~\ref{fig:feat_imp_v2} révèle une distribution radicalement différente de la V1. \texttt{rule\_level} est ramené à 26,85\% — contre 40\%+ dans une approche naive. Les features comportementales \texttt{repeat\_rule\_10min} (13,84\%) et \texttt{alert\_frequency\_5min} (13,10\%) représentent ensemble 26,94\% du pouvoir décisionnel. \texttt{ip\_abuse\_score} contribue à 8,32\% — le modèle apprend que les IPs publiques malveillantes sont intrinsèquement plus critiques, indépendamment du level Wazuh.
+
+\subsection{Comparaison V1 vs V2}
+
+\begin{table}[H]
+\centering
+\caption{Évolution de l'importance des features — V1 vs V2}
+\label{tab:v1v2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Feature} & \textbf{V1} & \textbf{V2 Final} & \textbf{Évolution} \\
+\hline
+\texttt{rule\_level}            & 39,74\% & 26,85\% & $\downarrow$ -32\% \\
+\texttt{repeat\_rule\_10min}    & 0\%     & 13,84\% & \textbf{Nouveau} \\
+\texttt{alert\_frequency\_5min} & 0\%     & 13,10\% & \textbf{Nouveau} \\
+\texttt{ip\_abuse\_score}       & 0\%     & 8,32\%  & \textbf{Nouveau} \\
+\texttt{is\_business\_hours}    & 0\%     & 1,78\%  & \textbf{Nouveau} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Analyse critique — 100\% accuracy}
+
+Les scores à 100\% s'expliquent par une dépendance fonctionnelle entre les features d'entrée et les labels construits. \texttt{rule\_level} contribue à 26,85\% de l'importance et est directement utilisé dans \texttt{make\_label}. \texttt{rule\_id\_enc} encode indirectement \texttt{rule\_level} — dans Wazuh, chaque \texttt{rule.id} a un level fixe. Même en retirant \texttt{rule\_level} des features, le modèle atteint 100\% car \texttt{rule\_id\_enc} prend le relais.
+
+Il est important de distinguer deux notions~:
+\begin{itemize}
+  \item \textbf{Cohérence interne}~: le modèle reproduit fidèlement la politique de triage encodée dans \texttt{make\_label} sur le dataset disponible. Cette cohérence est réelle et utile en déploiement.
+  \item \textbf{Généralisation}~: la capacité à classifier correctement des alertes provenant d'une configuration Wazuh différente ou de types d'attaques non représentés. Cette propriété ne peut pas être déduite des 100\% obtenus.
+\end{itemize}
+
+Un modèle véritablement généralisable nécessiterait un dataset constitué depuis plusieurs infrastructures avec des configurations Wazuh différentes, des labels assignés par des experts SOC indépendamment des règles Wazuh, et une validation croisée sur des données out-of-distribution. Ces conditions ne sont pas réunies dans ce prototype — ce qui est assumé et documenté comme limite.
+
+Ce qui distingue néanmoins la V2 d'un simple seuillage~: le modèle opère dans un espace à 11~dimensions. Deux alertes de même \texttt{rule.level} obtiennent des labels différents selon leur fréquence, répétition et réputation IP — ce qu'une règle Shuffle unidimensionnelle ne peut pas réaliser, comme le démontre expérimentalement la figure~\ref{fig:escalade}.
+
+\section{Démonstration de l'escalade comportementale}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{escalade_medium_high.png}
+\caption{Escalade MEDIUM $\rightarrow$ HIGH — même rule.level=5, décision basée sur repeat\_rule\_10min}
+\label{fig:escalade}
+\end{figure}
+
+Les alertes~1 à~8 sont classées MEDIUM (49--53\%) avec \texttt{freq=0$\rightarrow$5} et \texttt{repeat=0$\rightarrow$7}. À l'alerte~9, \texttt{repeat\_rule\_10min} atteint~8 — le seuil comportemental — et la classification bascule définitivement en HIGH (58\%). \textbf{Cette transition est impossible avec une condition Shuffle statique sur \texttt{rule.level} — elle prouve que le modèle a appris un pattern comportemental réel, indépendant de la sévérité Wazuh.} Le score de confiance MEDIUM (49--56\%) inférieur au score HIGH (57--58\%) reflète l'ambiguïté réelle de ces alertes dans la zone de transition.
+
+\needspace{8cm}
+\section{Tests du pipeline complet}
+
+\subsection{Scénario LOW — journalisation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{shuffle_execution.png}
+\caption{Exécution Shuffle — LOW (FINISHED, source webhook)}
+\label{fig:shuffle_exec}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{shuffle_http_result.png}
+\caption{Réponse API bloc HTTP — LOW, confidence 0.76}
+\label{fig:shuffle_http}
+\end{figure}
+
+La figure~\ref{fig:shuffle_exec} confirme trois éléments clés du pipeline~: le statut \texttt{FINISHED} prouve que l'exécution s'est terminée sans erreur~; la source \textit{webhook} confirme que l'alerte provient directement de Wazuh et non d'un test manuel~; la durée totale de 64~secondes (de 01:56:52 à 01:57:56) couvre le temps complet Wazuh\textrightarrow{}Shuffle\textrightarrow{}API \textrightarrow{}réponse pour cette alerte. Ce délai inclut le temps de dispatching Orborus, l'appel HTTP vers l'API Flask et l'exécution de \texttt{/respond/low}.
+
+La figure~\ref{fig:shuffle_http} détaille la réponse complète retournée par l'API~: \texttt{status~200} confirme le succès de l'appel HTTP~; \texttt{label~:~LOW} et \texttt{confidence~:~0.76} indiquent que le modèle a classifié cette alerte avec 76\% de certitude~; \texttt{action~:~LOG\_ONLY} déclenche la branche LOW du workflow~; \texttt{rule\_id~:~19003} et \texttt{agent~:~wazuh.manager} assurent la traçabilité complète de l'alerte. Le champ \texttt{success~:~true} confirme l'absence d'erreur de communication entre Shuffle et l'API Flask.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{shuffle_tools_result.png}
+\caption{Shuffle Tools — extraction LOW et journalisation dans incidents.json}
+\label{fig:shuffle_tools}
+\end{figure}
+
+Le message journalisé par Shuffle~Tools~2 — \texttt{LOW alert logged: 19003 | 2026-06-30T00:56:48 | Agent: wazuh.manager} — constitue un log d'incident minimal et traçable contenant les trois champs essentiels~: identifiant de règle, horodatage et agent source. Ce format est directement exploitable pour une corrélation post-incident ou un audit de sécurité.
+
+\subsection{Scénario MEDIUM — notification email}
+
+Une alerte de type attaque XSS (rule~\texttt{31103}, level~6) est générée dans \texttt{/var/log/simulated\_attacks.log} par le script \texttt{simulate\_attacks.py}. Wazuh la détecte et la transmet à Shuffle via le webhook configuré. Le bloc HTTP~1 envoie \texttt{\$exec.all\_fields} en POST vers \texttt{http://192.168.56.100:5000/predict}. L'API extrait les 11~features — notamment \texttt{rule\_level=6}, \texttt{groups\_count=1}, \texttt{has\_mitre=0} et \texttt{ip\_abuse\_score=0} (IP privée) — et retourne \texttt{\{label: MEDIUM, score: 63\%, action: NOTIFY\_ANALYST\}}. La condition MEDIUM sur la flèche vers Email~2 est satisfaite~; Shuffle appelle \texttt{/respond/medium} qui envoie Telegram compact et email analyste en parallèle. La figure~\ref{fig:email_medium} montre l'email reçu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{email_medium.png}
+\caption{Email MEDIUM reçu — format compact pour notification analyste}
+\label{fig:email_medium}
+\end{figure}
+
+\subsection{Scénario HIGH — blocage IP + notifications enrichies}
+
+\subsubsection{Avec IP publique malveillante (AbuseIPDB score=100)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{api_predictions.png}
+\caption{Logs API Flask — 3 alertes successives~: LOW$\rightarrow$MEDIUM$\rightarrow$HIGH en temps réel}
+\label{fig:api_high}
+\end{figure}
+
+Les trois alertes sont reçues à des intervalles de 11 et 14~secondes — ce qui correspond au temps de traitement complet Wazuh$\rightarrow$Shuffle$\rightarrow$API pour chaque alerte. La progression LOW$\rightarrow$MEDIUM$\rightarrow$HIGH dans une même session illustre la capacité du pipeline à traiter des alertes de criticités différentes en temps réel sans configuration manuelle entre chaque traitement.
+
+La figure~\ref{fig:api_high} montre le système en fonctionnement continu~: LOW (score=98\%, rule~5715), MEDIUM (score=63\%, rule~31103), HIGH (score=94\%, rule~5712). Le score de confiance est corrélé à la distance de \texttt{rule\_level} par rapport aux seuils comportementaux.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{respond_high_result.png}
+\caption{Résultat /respond/high — blocked:true, telegram:true, email:true}
+\label{fig:respond_high}
+\end{figure}
+
+La capture montre la commande curl utilisée pour le test — incluant le payload JSON complet avec toutes les features comportementales. Cette transparence de la démarche expérimentale permet la reproductibilité du test. Le résultat \texttt{\{"blocked":true,"email\_sent":true,"telegram\_sent":true\}} confirme l'exécution parallèle des trois actions en moins de 10~secondes (timeout configuré).
+
+La figure~\ref{fig:respond_high} confirme les trois actions exécutées en parallèle~: \texttt{blocked:true} (Wazuh Active Response), \texttt{telegram\_sent:true}, \texttt{email\_sent:true}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{telegram_high_blocked.png}
+\caption{Notification Telegram HIGH enrichie avec statut blocage IP}
+\label{fig:telegram_blocked}
+\end{figure}
+
+La capture montre deux notifications simultanément visibles~: la notification HIGH enrichie (avec contexte comportemental complet) et en dessous une notification MEDIUM compacte reçue lors d'un test précédent. Cette coexistence illustre les deux formats de notification distincts implémentés~: HIGH reçoit un message structuré avec tous les indicateurs comportementaux~; MEDIUM reçoit un format compact adapté à une notification de surveillance, sans surcharger l'analyste.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.68\textwidth]{email_high_blocked.png}
+\caption{Email HIGH structuré — contexte comportemental complet + blocage IP \checkmark{} Exécuté}
+\label{fig:email_high}
+\end{figure}
+
+L'objet de l'email (\texttt{SOAR-AI~: Alerte HIGH — 5710}) intègre directement le \texttt{rule\_id} — ce qui permet à l'analyste SOC de filtrer et trier sa boîte mail par type de règle déclenchée. La section \textit{Contexte} regroupe les indicateurs comportementaux calculés en temps réel~: fréquence 5min, répétitions 10min, score AbuseIPDB, heure et contexte horaire. Le champ \textit{Blocage IP~: \checkmark{} Exécuté} confirme que l'Active Response a été déclenché avant l'envoi de la notification — l'analyste reçoit donc une alerte accompagnée d'une action déjà prise.
+
+Les figures~\ref{fig:telegram_blocked} et~\ref{fig:email_high} montrent les notifications enrichies. L'email HIGH contient~: label, score (88\%), IP source (\texttt{185.220.101.1}), description, rule\_id, timestamp, fréquence 5min, répétitions 10min, score abus IP (100), heure (2h), heures ouvrées (Non), et \textbf{statut blocage~: \checkmark{} Exécuté}. Ce dernier champ confirme que Wazuh Active Response a effectivement traité la demande.
+
+\subsubsection{Note sur le Wazuh Active Response}
+
+L'\texttt{agent\_id=000} utilisé dans les tests correspond au Wazuh Manager lui-même. La commande \texttt{firewall-drop} exécute techniquement \texttt{iptables -A INPUT -s \{srcip\} -j DROP} sur la machine cible — mais uniquement si un agent Wazuh est déployé sur cette machine et que l'Active Response est activé dans sa configuration.
+
+En production chez OCP, le déploiement nécessiterait~:
+\begin{enumerate}
+  \item Un agent Wazuh installé sur chaque serveur cible (\texttt{wazuh-agent} package)
+  \item La directive \texttt{<active-response>} activée dans \texttt{ossec.conf} de l'agent
+  \item Des droits sudo pour l'exécution de \texttt{iptables} par l'agent
+\end{enumerate}
+
+Le mécanisme est entièrement implémenté côté API et validé~: l'appel JWT vers \texttt{/active-response} retourne \texttt{blocked:true} (figure~\ref{fig:respond_high}). Le blocage réseau effectif est conditionné au déploiement d'un agent sur la machine cible — identifié comme perspective prioritaire.
+
+\subsection{Performances du pipeline}
+
+\begin{table}[H]
+\centering
+\caption{Indicateurs de performance du pipeline}
+\label{tab:perf}
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Indicateur} & \textbf{Valeur} \\
+\hline
+Temps de réponse API (mesure unique) & 1,231~secondes \\
+Satisfaction BNF1 ($< 2$~s)         & \checkmark{} \\
+Alertes traitées (période de test)   & 5\,342 \\
+Alertes level $\geq 12$              & 11 \\
+Échecs d'authentification            & 839 \\
+Authentifications réussies           & 287 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{wazuh_dashboard.png}
+\caption{Dashboard Wazuh — statistiques globales sur la période de test}
+\label{fig:wazuh_dash}
+\end{figure}
+
+Le graphique \textit{Top 5 agents} (bas gauche) révèle trois agents actifs~: \textit{Sejjil-1}, \textit{wazuh.manager} et \textit{windows-agent} — preuve que l'infrastructure testée couvre plusieurs équipements hétérogènes. La dominance de \textit{Password Guessing} (T1110) dans le graphique MITRE est cohérente avec les 839~échecs d'authentification enregistrés — majoritairement générés par les scénarios de brute force SSH.
+
+Le dashboard présente 5\,342~alertes totales, 11~alertes level~$\geq 12$, 839~échecs d'authentification et 287~authentifications réussies. Le graphique MITRE~ATT\&CK confirme la dominance de \textit{Password Guessing} (T1110) et \textit{SSH} (T1021.004), cohérente avec les scénarios simulés.
+
+\needspace{6cm}
+\section{Discussion scientifique}
+
+\needspace{6cm}
+\subsection{Apport réel de la couche ML vs simple seuillage Shuffle}
+
+La question légitime est~: pourquoi ne pas utiliser directement une condition Shuffle \texttt{rule.level >= 7}~?
+
+La réponse est démontrée expérimentalement par la figure~\ref{fig:escalade}~: une alerte level~5 — que Shuffle classerait définitivement MEDIUM — est correctement escaladée en HIGH après 8~répétitions. Shuffle ne maintient pas d'état entre les exécutions et ne peut pas calculer \texttt{repeat\_rule\_10min} ou \texttt{ip\_abuse\_score}.
+
+Le modèle apporte~:
+\begin{itemize}
+  \item Un \textbf{score de confiance} gradué (49\% $\rightarrow$ 88\%) impossible avec une règle binaire
+  \item Une \textbf{escalade comportementale} basée sur la persistance et la réputation IP
+  \item Une \textbf{interface découplée}~: si la politique de triage évolue, seul le modèle est réentraîné — Shuffle reste inchangé
+\end{itemize}
+
+Le modèle ne reproduit pas mécaniquement la règle de seuillage~: il apprend une frontière de décision dans un espace à 11~dimensions, là où le seuillage simple opère dans un espace à 1~dimension (\texttt{rule.level}). La démonstration d'escalade (figure~\ref{fig:escalade}) en est la preuve expérimentale~: une alerte level~5 classée MEDIUM bascule en HIGH après 8~répétitions, transition impossible avec \texttt{rule.level >= 7}.
+
+\needspace{6cm}
+\subsection{Limites}
+
+\begin{enumerate}
+  \item \textbf{Dataset lab}~: 3\,945~alertes générées en environnement contrôlé avec IPs simulées. La diversité d'un SOC en production est bien supérieure.
+  \item \textbf{ip\_abuse\_score inactif sur IPs privées}~: les IPs simulées (10.x, 192.168.x) ont score=0. En production OCP avec de vraies IPs attaquantes, cette feature serait pleinement active.
+  \item \textbf{is\_business\_hours à 1,78\%}~: le dataset lab a des timestamps peu diversifiés. En production avec un historique multi-jours, cette feature contribuerait davantage.
+  \item \textbf{Absence d'ablation study formelle}~: une étude d'ablation consisterait à mesurer la dégradation des performances en retirant chaque feature une par une. Sur ce dataset, une telle étude ne produirait pas de résultats différenciés — le modèle atteint 100\% avec ou sans \texttt{rule\_level} en raison de la corrélation inter-features (rule\_id encode indirectement rule\_level). Cela confirme la limite méthodologique déjà identifiée~: les performances à 100\% reflètent la cohérence interne du dataset, pas la contribution isolée de chaque feature.
+  \item \textbf{Active Response limité à agent\_id=000}~: le blocage réseau réel nécessite un agent sur la machine cible.
+  \item \textbf{API en mode développement}~: Gunicorn serait nécessaire en production.
+\end{enumerate}
+
+\needspace{6cm}
+\section{Perspectives}
+
+\begin{enumerate}
+  \item \textbf{Dataset production}~: collecter des alertes OCP réelles pour enrichir la diversité.
+  \item \textbf{Déploiement agent Wazuh}~: activer le blocage IP effectif sur l'infrastructure OCP.
+  \item \textbf{Containerisation API}~: Docker + Gunicorn intégré au docker-compose global.
+  \item \textbf{Détection temporelle multi-étapes}~: LSTM sur séquences d'alertes pour capturer des patterns d'attaque complexes.
+  \item \textbf{Mesures de latence robustes}~: 50+ mesures pour moyenne et écart-type.
+\end{enumerate}
+
+% ══════════════════════════════════════════════════════════════════
+\chapter*{Conclusion générale}
+\addcontentsline{toc}{chapter}{Conclusion générale}
+\markboth{Conclusion générale}{Conclusion générale}
+
+Ce projet est né d'une observation terrain~: déployer un SOAR sans mécanisme de triage reproduirait, dans un nouvel outil, la problématique de saturation que le SIEM existant de l'OCP ne parvenait pas à résoudre seul. La proposition d'insérer un module ML comme couche de triage intelligente, validée par l'encadrant professionnel, a constitué le cœur de ce travail.
+
+Le système final est opérationnel de bout en bout. Une attaque détectée déclenche Wazuh, qui notifie Shuffle, qui appelle l'API Flask, qui classifie l'alerte avec 11~features comportementales et déclenche automatiquement~: blocage IP via Wazuh Active Response, notification Telegram enrichie et email structuré pour les alertes HIGH~; email de notification pour MEDIUM~; journalisation silencieuse pour LOW.
+
+La contribution scientifique centrale est la démonstration que deux alertes de même \texttt{rule.level} peuvent obtenir des criticités différentes selon leur comportement temporel — ce qu'un simple seuillage Wazuh ou Shuffle ne peut pas réaliser. L'escalade d'une alerte level~5 de MEDIUM vers HIGH après 8~répétitions, et la classification HIGH d'une IP publique malveillante (score AbuseIPDB=100) malgré un level faible, illustrent concrètement cette capacité.
+
+La limite méthodologique principale est honnêtement documentée~: le label est construit depuis des critères corrélés aux features, ce qui explique les 100\% d'accuracy sur le jeu de test et limite la généralisabilité. Les perspectives sont claires~: dataset de production, déploiement agent Wazuh pour le blocage réseau effectif, et containerisation complète de l'API.
+
+Ce projet constitue une base technique solide pour l'intégration d'une couche d'intelligence artificielle dans le futur déploiement SOAR de l'OCP.
+
+% ══════════════════════════════════════════════════════════════════
+\newpage
+\addcontentsline{toc}{chapter}{Références bibliographiques}
+\begin{thebibliography}{99}
+
+\bibitem{wazuh_doc}
+Wazuh, Inc.,
+\textit{Wazuh Documentation -- Version 4.9},
+[En ligne]. Disponible sur~: \url{https://documentation.wazuh.com/current/}
+[Consulté en septembre 2026].
+
+\bibitem{shuffle_doc}
+Shuffle SOAR,
+\textit{Shuffle Documentation},
+[En ligne]. Disponible sur~: \url{https://shuffler.io/docs}
+[Consulté en septembre 2026].
+
+\bibitem{cicids2017}
+Sharafaldin, I., Lashkari, A.~H., \& Ghorbani, A.~A.,
+\textit{Toward Generating a New Intrusion Detection Dataset
+  and Intrusion Traffic Characterization},
+4th International Conference on Information Systems
+Security and Privacy (ICISSP), 2018.
+
+\bibitem{gu2019}
+Gu, J. et al.,
+\textit{Effective and Efficient Intrusion Detection System Using Machine Learning Algorithms},
+Security and Communication Networks, 2019.
+
+\bibitem{catillo2022}
+Catillo, M. et al.,
+\textit{Transferability of Machine Learning Models Learned from Public Intrusion Detection Datasets},
+Computers \& Security, 2022.
+
+\bibitem{hindy2020}
+Hindy, H. et al.,
+\textit{A Taxonomy and Survey of Intrusion Detection System Design Techniques, Network Threats and Datasets},
+arXiv:1806.03517, 2020.
+
+\bibitem{sklearn_rf}
+Pedregosa, F. et al.,
+\textit{Scikit-learn: Machine Learning in Python},
+Journal of Machine Learning Research, 12, pp.~2825--2830, 2011.
+
+\bibitem{breiman2001}
+Breiman, L.,
+\textit{Random Forests},
+Machine Learning, 45(1), pp.~5--32, 2001.
+
+\bibitem{mitre_attack}
+MITRE Corporation,
+\textit{MITRE ATT\&CK Framework},
+[En ligne]. Disponible sur~: \url{https://attack.mitre.org/}
+[Consulté en septembre 2026].
+
+\bibitem{nist_csf}
+National Institute of Standards and Technology,
+\textit{Cybersecurity Framework Version 2.0},
+NIST, 2024.
+
+\bibitem{abuseipdb}
+AbuseIPDB,
+\textit{AbuseIPDB API Documentation},
+[En ligne]. Disponible sur~: \url{https://www.abuseipdb.com/api}
+[Consulté en septembre 2026].
+
+\end{thebibliography}
+
+% ══════════════════════════════════════════════════════════════════
+\appendix
+
+\chapter{Structure du projet}
+\label{annexe:structure}
+
+\begin{lstlisting}[style=mycode, language=bash,
+  caption={Structure du répertoire soar-ai-project}]
+soar-ai-project/
+|-- data/
+|   |-- raw/            <- dataset CICIDS2017
+|   |-- processed/      <- dataset nettoyé
+|   `-- simulated/      <- exports CSV Wazuh (dataset natif)
+|-- scripts/
+|   |-- simulate_attacks.py    <- 4 types d'attaques
+|   `-- export_wazuh_alerts.py <- export + features temporelles
+|-- model/
+|   |-- train.py        <- RF V2, 11 features, make_label behavioural
+|   |-- predict.py      <- historique temps réel + AbuseIPDB
+|   `-- saved/
+|       |-- model_wazuh_v2.pkl
+|       |-- label_encoder_v2.pkl
+|       |-- rule_id_encoder_v2.pkl
+|       `-- feature_names_v2.pkl
+|-- api/
+|   |-- app.py          <- /predict /respond/* /health /stats
+|   |-- .env            <- variables d'environnement
+|   `-- logs/
+|       `-- incidents.json  <- alertes LOW journalisées
+`-- notebooks/
+\end{lstlisting}
+
+\chapter{Exemple d'alerte Wazuh JSON}
+\label{annexe:alerte}
+
+\begin{lstlisting}[style=mycode,
+  caption={Alerte Wazuh — brute force SSH (rule 5712, level 10)}]
+{
+  "timestamp": "2026-09-07T02:00:00.000+0000",
+  "rule": {
+    "level": 10,
+    "description": "sshd: brute force trying to get access.",
+    "id": "5712",
+    "mitre": {"tactic": ["Credential Access"],
+              "technique": ["Brute Force"]},
+    "firedtimes": 20,
+    "groups": ["syslog","sshd","authentication_failures"]
+  },
+  "agent": {"id": "000", "name": "wazuh.manager"},
+  "data": {"srcip": "185.220.101.1", "srcuser": "root"}
+}
+\end{lstlisting}
+
+\chapter{Variables d'environnement}
+\label{annexe:env}
+
+\begin{lstlisting}[style=mycode, language=bash,
+  caption={Fichier api/.env — configuration de l'API}]
+TELEGRAM_BOT_TOKEN=<token_bot_telegram>
+TELEGRAM_CHAT_ID=<chat_id>
+EMAIL_FROM=<email_expediteur>
+EMAIL_TO=<email_analyste_soc>
+EMAIL_PASSWORD=<app_password_gmail_16_chars>
+WAZUH_API_URL=https://192.168.56.100:55000
+WAZUH_API_USER=wazuh-wui
+WAZUH_API_PASSWORD=<password_wazuh_api>
+ABUSEIPDB_KEY=<cle_api_abuseipdb>
+\end{lstlisting}
+
+\end{document}

@@ -1,0 +1,15 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('data/processed/alerts_clean.csv')
+print(df['Label'].value_counts())
+print()
+
+cols = ['Bwd Packet Length Min','Dst Port','Fwd Packet Length Max','Bwd Packet Length Std','Bwd Packets/s','PSH Flag Count']
+for label in ['HIGH','LOW','MEDIUM','BENIGN']:
+    sub = df[df['Label']==label]
+    print(f'=== {label} ===')
+    for c in cols:
+        if c in df.columns:
+            print(f'  {c:35s}: mean={sub[c].mean():.1f} std={sub[c].std():.1f}')
+    print()

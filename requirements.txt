@@ -1,0 +1,21 @@
+# Core Data Science
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.4.2
+ 
+# ML avec support GPU
+xgboost==2.0.3          # supporte GPU via device='cuda'
+ 
+# API Flask
+flask==3.0.3
+joblib==1.4.2
+requests==2.32.3
+python-dotenv==1.0.1
+ 
+# Visualisation
+matplotlib==3.8.4
+seaborn==0.13.2
+ 
+# Utilitaires
+tqdm==4.66.4             # barre de progression
+ipykernel==6.29.4        # pour Jupyter dans VS Code
