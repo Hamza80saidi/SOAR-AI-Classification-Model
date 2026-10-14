@@ -1,0 +1,124 @@
+/* Thème personnalisé — soutenance SOAR-AI (remplace le thème seriph/default) */
+
+:root {
+  --navy: #1b2a41;
+  --accent: #2e7d32;
+  --bg: #fafafa;
+  --text: #1c1c1c;
+  --muted: #5a6472;
+}
+
+html.dark {
+  --bg: #12161c;
+  --text: #eef0f2;
+  --muted: #9aa5b1;
+}
+
+.slidev-layout {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Source Sans 3', system-ui, sans-serif;
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+.slidev-layout h1 {
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 2em;
+  margin-bottom: 0.4em;
+}
+
+.slidev-layout h2 {
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 1.3em;
+}
+
+.slidev-layout h3 {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.slidev-layout a {
+  color: var(--accent);
+}
+
+.slidev-layout strong {
+  color: var(--navy);
+}
+
+.slidev-layout table {
+  font-size: 0.9em;
+}
+
+.slidev-layout table th {
+  background: var(--navy);
+  color: #fff;
+}
+
+.slidev-layout table tr:nth-child(even) {
+  background: #00000006;
+}
+
+.slidev-layout code {
+  color: var(--accent);
+}
+
+/* Cover slide: solid navy, no default gradient */
+.slidev-layout.cover {
+  background: var(--navy) !important;
+  color: #fff;
+}
+.slidev-layout.cover h1,
+.slidev-layout.cover h2,
+.slidev-layout.cover h3 {
+  color: #fff;
+}
+
+/* Statement-style emphasis block reused across slides */
+.callout {
+  border-left: 4px solid var(--accent);
+  background: #2e7d3214;
+  padding: 0.6em 1em;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.callout-warning {
+  border-left: 4px solid #b45309;
+  background: #b4530914;
+  padding: 0.6em 1em;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.big-number {
+  font-size: 2.4em;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: #ffffff1a;
+  border: 1.5px solid #ffffff55;
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.03em;
+}
+
+.deck-footer {
+  position: fixed;
+  bottom: 10px;
+  right: 18px;
+  font-size: 13px;
+  color: var(--muted);
+  z-index: 10;
+}

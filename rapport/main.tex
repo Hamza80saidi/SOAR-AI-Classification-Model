@@ -93,7 +93,7 @@
 % ─── En-têtes ──────────────────────────────────────────────────────
 \usepackage{fancyhdr}
 \pagestyle{fancy}\fancyhf{}
-\lhead{\textbf{Département des technologies nouvelles -- FPB}}
+\lhead{\textbf{Département des technologies nouvelles -- FSA}}
 \rhead{\textbf{Master D3SI}}
 \cfoot{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -106,15 +106,16 @@
 \newgeometry{hmargin=2cm, top=1.5cm, bottom=1.5cm}
 \begin{titlepage}
 \begin{center}
-\begin{tabular}{m{0.25\textwidth} m{0.45\textwidth} m{0.25\textwidth}}
-  \centering\includegraphics[height=2.5cm]{univertisé.png} &
-  \centering\begin{minipage}{\linewidth}\centering
-    {\small Université Sultan Moulay Slimane}\\[2pt]
-    {\small Faculté Polydisciplinaire de Béni Mellal}\\[4pt]
-    {Département des technologies nouvelles}
-  \end{minipage} &
-  \centering\includegraphics[height=2.5cm]{Faculté.jpg}
-\end{tabular}
+\begin{minipage}{0.20\textwidth}
+  \includegraphics[height=2.5cm]{univertisé.png}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.75\textwidth}
+  \centering
+  {\small Université Sultan Moulay Slimane}\\[2pt]
+  {\small Faculté des Sciences Appliquées de Béni Mellal}\\[4pt]
+  {Département des technologies nouvelles}
+\end{minipage}
 \vspace{3mm}\rule{\linewidth}{0.8pt}\vspace{8mm}
 
 {\Large\textsc{Projet de Fin d'Études}}\\[0.3cm]
@@ -150,14 +151,14 @@
   \textbf{Soutenu le :} \dotfill\\[4pt]
   \textbf{Devant le Jury :}\\[0.2cm]
   \begin{tabular}{ll}
-    Pr. \textbf{Mohamed El Fezazi} & FP Béni Mellal \\[3pt]
-    Pr. \dotfill & FP Béni Mellal \\[3pt]
-    Pr. \dotfill & FP Béni Mellal \\
+    Pr. \textbf{Mohamed El Fezazi} & FSA Béni Mellal \\[3pt]
+    Pr. \dotfill & FSA Béni Mellal \\[3pt]
+    Pr. \dotfill & FSA Béni Mellal \\
   \end{tabular}
 \end{flushleft}
 \vfill
 \rule{0.3\linewidth}{0.5pt}\\[0.2cm]
-{\small Faculté Polydisciplinaire -- Université Sultan Moulay Slimane\\
+{\small Faculté des Sciences Appliquées -- Université Sultan Moulay Slimane\\
 Mghila BP~: 592 Beni Mellal\quad Tél~: +212\,(0)\,523\,42\,46\,85}\\[4pt]
 {\small Année Universitaire : 2025 -- 2026}
 \end{center}
@@ -167,6 +168,43 @@ Mghila BP~: 592 Beni Mellal\quad Tél~: +212\,(0)\,523\,42\,46\,85}\\[4pt]
 % ─── PAGES PRÉLIMINAIRES ───────────────────────────────────────────
 \clearpage\pagenumbering{roman}\setcounter{page}{1}
 
+\chapter*{Dédicace}
+\addcontentsline{toc}{chapter}{Dédicace}
+\vspace*{3cm}
+\begin{center}
+\itshape\large
+À mes parents, qui ont tout sacrifié pour que je puisse
+aller plus loin qu'eux.\\[0.5cm]
+Chaque effort fourni dans ce travail leur appartient
+autant qu'à moi.
+\end{center}
+
+\newpage
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+
+Au terme de ce travail, je tiens à exprimer ma profonde
+gratitude à toutes les personnes qui ont contribué à la
+réussite de ce projet de fin d'études.
+
+Je remercie chaleureusement mon encadrant pédagogique,
+Pr. Mohamed El Fezazi, pour son suivi, ses conseils avisés
+et sa disponibilité tout au long de ce projet.
+
+Mes remerciements s'adressent également à mes encadrants
+professionnels au sein de l'OCP, M. Fahmi Abderrahim et
+M. Erraji Hamza, pour leur accompagnement, leur confiance
+et le partage de leur expertise sur le terrain.
+
+Je remercie l'ensemble du corps professoral du Master
+Data Science et Sécurité des Systèmes d'Information de la
+Faculté des Sciences Appliquées de Béni Mellal pour la
+qualité de la formation dispensée.
+
+Enfin, j'exprime ma reconnaissance à ma famille et à mes
+proches pour leur soutien constant durant toutes mes études.
+
+\newpage
 \chapter*{Résumé}
 \addcontentsline{toc}{chapter}{Résumé}
 
@@ -176,7 +214,7 @@ Une première approche basée sur le dataset public CICIDS2017 a été abandonn�
 
 Le modèle Random Forest final démontre une capacité d'escalade comportementale~: une alerte de level~5 initialement classée MEDIUM bascule automatiquement en HIGH après 8~répétitions depuis la même source, indépendamment du \texttt{rule.level} Wazuh. Une IP publique avec score AbuseIPDB de 100 est classée HIGH même avec un level faible. Le pipeline complet inclut une réponse active Wazuh (\texttt{firewall-drop}), des notifications Telegram enrichies et des emails structurés avec statut de blocage.
 
-\textbf{Mots-clés}~: SIEM, SOAR, Wazuh, Shuffle, Random Forest, cybersécurité, triage automatisé, features temporelles, AbuseIPDB, OCP.
+\textbf{Mots-clés}~: SIEM, SOAR, Wazuh, Shuffle, Random Forest, triage automatisé d'alertes, features comportementales, threat intelligence, AbuseIPDB, Wazuh Active Response, détection d'intrusions, cybersécurité industrielle.
 
 \vspace{0.8cm}
 \chapter*{Abstract}
@@ -188,28 +226,42 @@ An initial approach based on the CICIDS2017 public dataset was abandoned due to 
 
 The final Random Forest model demonstrates behavioral escalation capability~: a level~5 alert initially classified MEDIUM automatically escalates to HIGH after 8~repetitions from the same source, independently of the Wazuh \texttt{rule.level}. A public IP with AbuseIPDB score of 100 is classified HIGH even with a low rule level. The complete pipeline includes Wazuh Active Response (\texttt{firewall-drop}), enriched Telegram notifications, and structured emails with blocking status.
 
-\textbf{Keywords}~: SIEM, SOAR, Wazuh, Shuffle, Random Forest, cybersecurity, automated triage, temporal features, AbuseIPDB, OCP.
-
-\newpage\tableofcontents
-\newpage\listoffigures\addcontentsline{toc}{chapter}{Liste des figures}
-\newpage\listoftables\addcontentsline{toc}{chapter}{Liste des tableaux}
+\textbf{Keywords}~: SIEM, SOAR, Wazuh, Shuffle, Random Forest, automated alert triage, behavioral features, threat intelligence, AbuseIPDB, Wazuh Active Response, intrusion detection, industrial cybersecurity.
 
 \newpage
 \chapter*{Liste des abréviations}
 \addcontentsline{toc}{chapter}{Liste des abréviations}
 \begin{acronym}[SOAR]
+  \acro{API}{Application Programming Interface}
+  \acro{CICIDS}{Canadian Institute for Cybersecurity IDS Dataset}
+  \acro{CPU}{Central Processing Unit}
+  \acro{CTI}{Cyber Threat Intelligence}
+  \acro{FSA}{Faculté des Sciences Appliquées}
+  \acro{GPU}{Graphics Processing Unit}
+  \acro{HTTP}{HyperText Transfer Protocol}
+  \acro{IDS}{Intrusion Detection System}
+  \acro{IT}{Information Technology}
+  \acro{JSON}{JavaScript Object Notation}
+  \acro{JWT}{JSON Web Token}
+  \acro{LVM}{Logical Volume Manager}
+  \acro{ML}{Machine Learning}
+  \acro{MITRE}{MITRE ATT\&CK Framework}
+  \acro{MTTR}{Mean Time To Respond}
+  \acro{OCP}{Office Chérifien des Phosphates}
+  \acro{OT}{Operational Technology}
+  \acro{RF}{Random Forest}
+  \acro{RFC}{Request For Comments}
   \acro{SIEM}{Security Information and Event Management}
   \acro{SOAR}{Security Orchestration, Automation and Response}
   \acro{SOC}{Security Operations Center}
-  \acro{API}{Application Programming Interface}
-  \acro{RF}{Random Forest}
-  \acro{ML}{Machine Learning}
-  \acro{CTI}{Cyber Threat Intelligence}
-  \acro{OCP}{Office Chérifien des Phosphates}
+  \acro{SSH}{Secure Shell}
   \acro{VM}{Machine Virtuelle}
-  \acro{JSON}{JavaScript Object Notation}
-  \acro{MTTR}{Mean Time To Respond}
+  \acro{XSS}{Cross-Site Scripting}
 \end{acronym}
+
+\newpage\tableofcontents
+\newpage\listoffigures\addcontentsline{toc}{chapter}{Liste des figures}
+\newpage\listoftables\addcontentsline{toc}{chapter}{Liste des tableaux}
 
 % ─── CORPS ─────────────────────────────────────────────────────────
 \newpage\pagenumbering{arabic}\setcounter{page}{1}
@@ -224,31 +276,109 @@ Le département cybersécurité de l'OCP disposait déjà d'un SIEM opérationne
 
 C'est l'auteur de ce rapport qui a proposé l'intégration d'un module de classification par apprentissage automatique comme couche de triage intelligente entre les deux systèmes. Cette proposition, validée par l'encadrant professionnel M.~Erraji~Hamza, a constitué le sujet de ce PFE.
 
-Ce rapport est structuré en six chapitres~: après la présentation de l'organisme d'accueil, les chapitres~\ref{chap:etat_art} à~\ref{chap:resultats} couvrent l'état de l'art, les besoins, la conception, l'implémentation et les résultats.
+Ce rapport est structuré en cinq chapitres~: le chapitre~\ref{chap:contexte} présente l'organisme d'accueil, l'état de l'art et l'environnement de travail~; les chapitres suivants couvrent successivement les besoins, la conception, l'implémentation et les résultats jusqu'au chapitre~\ref{chap:resultats}.
 
 % ══════════════════════════════════════════════════════════════════
-\part{Présentation de l'organisme d'accueil}
+\chapter{Contexte, État de l'art et Environnement de travail}
+\label{chap:contexte}
 
-\chapter{Présentation de l'OCP S.A.}
-\label{chap:ocp}
+\section*{Introduction}
+Ce premier chapitre présente le contexte général du projet.
+Il débute par la présentation de l'organisme d'accueil, l'OCP,
+et du site où s'est déroulé le stage. Il établit ensuite l'état
+de l'art des technologies SIEM, SOAR et de l'apprentissage
+automatique appliqué à la détection d'intrusions, avant de
+présenter l'environnement de travail et le positionnement
+du projet.
 
-\section{Présentation générale}
-\textit{[À compléter par l'étudiant.]}
+\section{Présentation du Groupe OCP}
 
-\section{Organisation et sites}
-\textit{[À compléter par l'étudiant.]}
+\subsection{Le Groupe OCP en bref}
 
-\section{Site d'accueil et contexte du stage}
-\textit{[À compléter par l'étudiant.]}
+Le Groupe OCP (Office Chérifien des Phosphates) est un leader
+mondial sur le marché des phosphates et de leurs dérivés.
+Fondé en 1920, le groupe est un acteur majeur de l'économie
+marocaine et un opérateur de référence à l'échelle
+internationale dans l'extraction, la valorisation et la
+commercialisation du phosphate et de ses produits dérivés,
+notamment les engrais et l'acide phosphorique.
 
-\section{Infrastructure numérique et cybersécurité}
-\textit{[À compléter — mentionner le SIEM existant, le projet SOAR et le flux de 100 alertes/seconde.]}
+\begin{table}[H]
+\centering
+\caption{Chiffres clés du Groupe OCP}
+\label{tab:ocp_chiffres}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Indicateur} & \textbf{Valeur} \\
+\hline
+Année de création       & 1920 \\
+Secteur d'activité      & Extraction et valorisation du phosphate \\
+Position mondiale       & Premier exportateur mondial de phosphate \\
+Présence internationale & Plus de 160 pays \\
+Principaux sites        & Khouribga, Benguerir, Youssoufia, Jorf Lasfar, Safi \\
+\hline
+\end{tabular}
+\end{table}
 
-% ══════════════════════════════════════════════════════════════════
-\part{Projet technique}
+Le groupe maîtrise l'ensemble de la chaîne de valeur du
+phosphate, depuis l'extraction minière jusqu'à la
+transformation chimique. Cette intégration verticale
+s'accompagne d'une transformation numérique profonde,
+portée par le programme OCP~4.0, qui vise à moderniser
+les infrastructures industrielles et informatiques du groupe.
 
-\chapter{État de l'art}
-\label{chap:etat_art}
+\subsection{Site d'accueil : la laverie de Benguerir-Gantour}
+
+Le stage s'est déroulé sur le site de Benguerir, au sein de
+la laverie de Gantour, dans le département Maintenance. La
+laverie est une unité industrielle clé dans la chaîne de
+traitement du phosphate~: elle assure le lavage et
+l'enrichissement du minerai brut avant son acheminement vers
+les unités de transformation.
+
+\begin{table}[H]
+\centering
+\caption{Contexte du stage}
+\label{tab:stage}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{ColSection!15}
+\textbf{Élément} & \textbf{Détail} \\
+\hline
+Site            & Benguerir \\
+Unité           & Laverie de Gantour \\
+Département      & Maintenance \\
+Durée           & 4 mois (mars à juillet 2026) \\
+Domaine         & Cybersécurité industrielle \\
+\hline
+\end{tabular}
+\end{table}
+
+Le département Maintenance assure la disponibilité et la
+fiabilité des équipements industriels de la laverie. Dans un
+contexte de digitalisation croissante, ce département intègre
+de plus en plus de systèmes connectés, ce qui élargit la
+surface d'exposition aux cybermenaces et justifie le besoin
+d'une surveillance de sécurité renforcée.
+
+\subsection{Programme OCP 4.0 et enjeux de cybersécurité}
+
+Le programme OCP~4.0 constitue la feuille de route de
+transformation numérique du groupe. Il vise à intégrer les
+technologies de l'industrie 4.0 — capteurs connectés,
+automatisation, analyse de données — dans l'ensemble des
+processus industriels. Cette convergence entre les
+technologies de l'information (IT) et les technologies
+opérationnelles (OT) génère de nouveaux risques de sécurité~:
+les systèmes industriels, historiquement isolés, deviennent
+accessibles depuis les réseaux informatiques et donc
+potentiellement exposés aux attaques.
+
+C'est dans ce contexte que s'inscrit le besoin d'un système
+de détection et de réponse automatisée aux incidents de
+sécurité, capable de traiter efficacement le volume croissant
+d'alertes généré par cette convergence.
 
 \section{Cybersécurité en environnement industriel}
 
@@ -331,16 +461,21 @@ CICIDS2017~\cite{cicids2017} contient des features extraites de flux réseau~: \
 Ce projet adopte une approche \textit{domain-native}~: entraîner le modèle sur les alertes réelles du SIEM cible. Il ajoute une dimension comportementale absente de la littérature~: la fréquence temporelle des alertes et la réputation des IP sources comme critères de classification.
 
 % ══════════════════════════════════════════════════════════════════
-\chapter{Analyse des besoins}
+\chapter{Analyse des besoins et Conception}
 \label{chap:besoins}
 
-\section{Problématique}
+\section*{Introduction}
+Ce chapitre définit les besoins fonctionnels et non fonctionnels
+du système, puis présente sa conception architecturale. Il détaille
+l'architecture globale en couches, la conception du module de
+détection SIEM, du module d'intelligence artificielle et du
+workflow d'orchestration SOAR.
 
-\begin{tcolorbox}[colback=ColSection!5, colframe=ColSection, arc=4pt, boxrule=0.8pt]
-\textbf{Question centrale~:} Comment insérer une couche de classification ML entre le SIEM et le SOAR pour trier les alertes par criticité comportementale — et non plus par seuil fixe — afin que le SOAR ne traite activement que les incidents qui le méritent~?
-\end{tcolorbox}
+\section{Problématique et objectifs}
 
-La distinction avec un simple seuillage \texttt{rule.level} est centrale~: deux alertes de même level peuvent avoir des criticités très différentes selon la fréquence d'attaque, la persistance et la réputation de l'IP source.
+Le département cybersécurité de l'OCP fait face à un défi opérationnel concret~: le volume d'alertes généré par le SIEM en production atteint l'ordre de 100 événements par seconde. Le déploiement d'une plateforme SOAR, destinée à automatiser la réponse aux incidents, se heurte à une limite structurelle~: sans mécanisme de triage préalable, le SOAR reçoit ce flux brut et reproduit la même saturation que celle observée au niveau du SIEM. Les analystes se retrouvent confrontés au même volume d'alertes non priorisées, simplement dans un outil différent.
+
+L'objectif de ce projet est de concevoir et déployer une couche de classification par apprentissage automatique, insérée entre le SIEM et le SOAR, capable de trier automatiquement les alertes selon leur criticité comportementale réelle. Contrairement à un simple seuillage sur le niveau de sévérité Wazuh (\texttt{rule.level}), cette couche prend en compte la fréquence d'apparition des alertes, leur répétition depuis une même source et la réputation de l'adresse IP attaquante. Ainsi, deux alertes de même niveau peuvent obtenir des criticités différentes selon leur contexte, permettant au SOAR de ne traiter activement que les incidents qui le méritent réellement.
 
 \section{Besoins fonctionnels}
 
@@ -392,12 +527,17 @@ BNF4 & Reproductibilité & Dataset généré depuis Wazuh \\
 La contrainte BNF1 est la plus directement vérifiable~: un temps de réponse supérieur à 2~secondes rendrait le pipeline trop lent pour un usage SOC réel où les alertes arrivent en continu. La mesure effectuée lors des tests (1,231~seconde) confirme le respect de cette contrainte. BNF2 reflète les contraintes matérielles du projet~: l'ensemble de l'infrastructure doit fonctionner dans une VM de 10~Go de RAM, ce qui a imposé des choix d'optimisation (démarrage sélectif des conteneurs, gestion de l'espace disque). BNF3 et BNF4 garantissent la reproductibilité du système~: tout déploiement futur chez OCP pourrait être réalisé via les mêmes fichiers Docker Compose et le même processus d'entraînement.
 
 % ══════════════════════════════════════════════════════════════════
-\chapter{Conception et architecture}
+\section{Conception et architecture}
 \label{chap:conception}
 
-\section{Architecture globale}
+La conception du système repose sur une architecture en couches
+aux responsabilités séparées. Cette section détaille l'architecture
+globale, puis la conception de chacun des modules — SIEM, IA et
+SOAR — ainsi que leurs interactions.
 
-\subsection{Vue d'ensemble}
+\subsection{Architecture globale}
+
+\subsubsection{Vue d'ensemble}
 
 Le système repose sur cinq couches aux responsabilités séparées. La figure~\ref{fig:arch_globale} illustre leur interconnexion.
 
@@ -461,7 +601,7 @@ La figure~\ref{fig:arch_globale} illustre l'architecture complète du système S
 
 Cette séparation des responsabilités garantit la modularité du système~: chaque composant communique avec les autres via un contrat d'interface JSON bien défini. Remplacer le modèle Random Forest par un autre algorithme, ou Shuffle par une autre plateforme SOAR, n'affecterait aucun autre composant. Cette propriété est essentielle pour un système destiné à évoluer en production.
 
-\subsection{Diagramme de séquence}
+\subsubsection{Diagramme de séquence}
 
 \begin{figure}[H]
 \centering
@@ -503,9 +643,9 @@ La figure~\ref{fig:sequence} détaille la chronologie exacte du traitement d'une
 
 À $t_1$, un log sshd est écrit dans le fichier surveillé par Wazuh. À $t_2$, le moteur de règles détecte le pattern de brute force (rule~5712) et envoie le JSON de l'alerte à Shuffle via webhook. À $t_3$, Shuffle appelle l'API Flask en POST avec l'intégralité de l'alerte (\texttt{\$exec.all\_fields}). De $t_4$ à $t_5$, l'API extrait les 11~features comportementales, interroge AbuseIPDB si nécessaire, et le modèle Random Forest calcule les probabilités par classe. À $t_6$, la réponse JSON complète (\{HIGH, 0.88, BLOCK\_AND\_ALERT\}) est retournée à Shuffle. À $t_7$, après évaluation de la condition HIGH, la notification Telegram est envoyée et Wazuh Active Response est déclenché. L'ensemble de ce traitement s'effectue en moins de deux secondes, comme mesuré expérimentalement (1,231~s).
 
-\section{Conception du module SIEM}
+\subsection{Conception du module SIEM}
 
-\subsection{Règles Wazuh déclenchées}
+\subsubsection{Règles Wazuh déclenchées}
 
 Wazuh associe à chaque événement détecté une règle identifiée par un identifiant numérique (\texttt{rule.id}) et un niveau de sévérité de 1 à 15. Ces règles sont prédéfinies et couvrent un large spectre de menaces~: tentatives d'authentification échouées, scans de ports, attaques web, connexions anormales. Dans ce projet, les scénarios d'attaque simulés ont été conçus pour déclencher des règles représentatives des menaces réelles rencontrées sur les infrastructures industrielles. Le tableau~\ref{tab:regles} liste ces règles avec leur niveau de sévérité correspondant.
 
@@ -531,26 +671,15 @@ Wazuh associe à chaque événement détecté une règle identifiée par un iden
 
 Les règles de niveau~10 (5712 et 5763) correspondent aux scénarios de brute force SSH les plus intenses~: Wazuh les déclenche uniquement lorsqu'un nombre élevé de tentatives échouées est détecté depuis la même source en peu de temps. Ces règles constituent les alertes les plus critiques du pipeline et sont systématiquement classifiées HIGH par le modèle lorsque \texttt{alert\_frequency\_5min} ou \texttt{repeat\_rule\_10min} dépassent les seuils comportementaux définis dans \texttt{make\_label}. La règle~533 (level~7, port scan) et la règle~31103 (level~6, XSS) illustrent des niveaux intermédiaires où la classification dépend davantage du contexte comportemental que du seul level Wazuh.
 
-\subsection{Configuration Wazuh $\rightarrow$ Shuffle}
+\subsubsection{Configuration Wazuh $\rightarrow$ Shuffle}
 
-\begin{lstlisting}[style=mycode, language=XML,
-  caption={Configuration intégration Wazuh-Shuffle (wazuh\_manager.conf)}]
-<localfile>
-  <log_format>syslog</log_format>
-  <location>/var/log/simulated_attacks.log</location>
-</localfile>
-<integration>
-  <name>shuffle</name>
-  <hook_url>http://192.168.56.100:3001/api/v1/hooks/
-    webhook_cf5a07df-bbad-4fa9-bb4c-cf2b59ec1718</hook_url>
-  <level>3</level>
-  <alert_format>json</alert_format>
-</integration>
-\end{lstlisting}
+La configuration de l'intégration Wazuh-Shuffle, définissant la
+surveillance du fichier de logs et la transmission des alertes vers
+le webhook, est détaillée en Annexe~\ref{annexe:code}.
 
-\section{Conception du module IA}
+\subsection{Conception du module IA}
 
-\subsection{Abandon de CICIDS2017 — analyse de l'incompatibilité}
+\subsubsection{Abandon de CICIDS2017 — analyse de l'incompatibilité}
 
 Les figures~\ref{fig:cm_xgb} et~\ref{fig:cm_rf} présentent les matrices de confusion obtenues sur CICIDS2017.
 
@@ -585,7 +714,7 @@ Le calcul est direct~: \texttt{Bwd Packet Length Min} (18,8\%) + \texttt{Dst Por
 
 Les features dominantes (\texttt{Bwd Packet Length Min} 18,8\%, \texttt{Dst Port} 12,5\%, \texttt{Fwd Packet Length Max} 10,5\%) sont toutes des métriques de trafic réseau pcap. \textbf{Aucune n'existe dans une alerte Wazuh.} Lorsque le modèle reçoit un vecteur Wazuh dans lequel ces champs sont nuls, il perd 60\% de son information discriminante et prédit systématiquement BENIGN. Cette incompatibilité est structurelle et non contournable par un mapping heuristique.
 
-\subsection{Nouvelle approche — features natives Wazuh enrichies}
+\subsubsection{Nouvelle approche — features natives Wazuh enrichies}
 
 Le choix des features est l'étape la plus déterminante du feature engineering~: une feature mal choisie apporte du bruit, tandis qu'une feature pertinente peut à elle seule changer la décision du modèle. Dans ce projet, les features ont été sélectionnées selon trois critères~: disponibilité dans les alertes Wazuh réelles, pouvoir discriminant théorique entre les classes, et complémentarité avec les autres features. Le tableau~\ref{tab:features} présente les onze variables retenues avec leur source exacte dans la structure JSON de Wazuh et leur rôle discriminant justifié.
 
@@ -615,29 +744,12 @@ Le choix des features est l'étape la plus déterminante du feature engineering~
 
 Les six premières features (\texttt{rule\_id\_enc} à \texttt{fired\_times}) sont présentes dans toutes les alertes Wazuh et constituent la base de la classification. Les quatre features temporelles (\texttt{alert\_frequency\_5min}, \texttt{repeat\_rule\_10min}, \texttt{hour\_of\_day}, \texttt{is\_business\_hours}) sont calculées dynamiquement en temps réel depuis un historique maintenu en mémoire~: elles n'existent pas dans l'alerte JSON brute mais sont construites par \texttt{predict.py} à partir du contexte d'exécution. La feature \texttt{ip\_abuse\_score} est la seule à nécessiter un appel externe (AbuseIPDB)~: elle apporte une dimension de threat intelligence absente des systèmes SIEM classiques. Ensemble, ces onze features permettent de distinguer deux alertes de même \texttt{rule.level} selon leur comportement temporel et la réputation de leur source~-- ce qu'aucune règle Wazuh statique ne peut réaliser.
 
-\subsection{Schéma de labellisation comportementale}
+\subsubsection{Schéma de labellisation comportementale}
 \label{sec:labellisation}
 
-\begin{lstlisting}[style=mycode,
-  caption={Fonction make\_label — labellisation comportementale (train.py)}]
-def make_label(row):
-    level  = row['rule_level']
-    freq   = row['alert_frequency_5min']
-    repeat = row['repeat_rule_10min']
-    abuse  = row['ip_abuse_score']
-
-    if level >= 7:
-        return 'HIGH'
-    if level >= 5:
-        if freq >= 10 or repeat >= 8 or abuse >= 80:
-            return 'HIGH'   # escalade comportementale
-        return 'MEDIUM'
-    if level >= 3:
-        if freq >= 15 or repeat >= 10 or abuse >= 80:
-            return 'MEDIUM'  # escalade comportementale
-        return 'LOW'
-    return 'LOW'
-\end{lstlisting}
+Le code complet de la fonction \texttt{make\_label}, qui implémente
+le schéma de labellisation comportementale, est fourni en
+Annexe~\ref{annexe:code}.
 
 \begin{tcolorbox}[colback=ColWarning!8, colframe=ColWarning, arc=4pt,
   boxrule=0.8pt,
@@ -649,7 +761,7 @@ Cette architecture est fonctionnelle dans son contexte. Sa généralisation à d
 \end{tcolorbox}
 
 \needspace{10cm}
-\subsection{Pipeline ML complet}
+\subsubsection{Pipeline ML complet}
 
 La figure~\ref{fig:pipeline_ml} présente le pipeline de classification de bout en bout, depuis la réception d'une alerte Wazuh brute jusqu'à l'exécution de l'action de réponse automatisée. Chaque étape est colorée selon le composant responsable~: teal pour le SIEM, orange pour la couche IA, rouge sombre pour la réponse. Cette représentation illustre le découplage architectural entre les couches~: chaque composant communique via un contrat d'interface JSON bien défini, ce qui garantit la modularité du système.
 
@@ -693,7 +805,7 @@ La figure~\ref{fig:pipeline_ml} présente le pipeline de classification de bout 
 \end{figure}
 
 \needspace{6cm}
-\subsection{Choix Random Forest}
+\subsubsection{Choix Random Forest}
 
 \begin{enumerate}
   \item \textbf{Gestion du déséquilibre}~: \texttt{class\_weight='balanced'} — essentiel avec HIGH à 5\% du dataset initial.
@@ -702,7 +814,7 @@ La figure~\ref{fig:pipeline_ml} présente le pipeline de classification de bout 
 \end{enumerate}
 
 \needspace{6cm}
-\section{API Flask et réponse automatisée}
+\subsection{API Flask et réponse automatisée}
 
 L'API Flask constitue le pont entre la plateforme SOAR et le modèle de classification. Sa conception repose sur un principe clé~: Shuffle ne doit effectuer qu'un seul appel pour déclencher l'intégralité du pipeline de réponse. Cela simplifie le workflow Shuffle et centralise toute la logique métier dans Flask. Le tableau~\ref{tab:endpoints} présente les six endpoints exposés par l'API, organisés par méthode HTTP et description fonctionnelle.
 
@@ -728,7 +840,7 @@ GET  & \texttt{/stats}         & Statistiques de prédiction \\
 L'endpoint \texttt{POST /predict} est le cœur du système~: il reçoit l'alerte Wazuh brute, extrait les features, appelle le modèle, puis déclenche automatiquement l'endpoint \texttt{/respond/\{label\}} correspondant. Ce mécanisme d'auto-appel interne signifie que Shuffle n'a besoin que d'un seul bloc HTTP dans son workflow~: le routage et toute la logique de réponse (blocage IP, Telegram, email, journalisation) sont entièrement gérés par Flask. Les endpoints \texttt{/respond/*} peuvent également être appelés directement depuis n'importe quel outil externe, ce qui rend l'API indépendante de Shuffle et réutilisable dans d'autres contextes d'orchestration.
 
 \needspace{6cm}
-\section{Workflow Shuffle}
+\subsection{Workflow Shuffle}
 
 \begin{figure}[H]
 \centering
@@ -741,9 +853,23 @@ Le Runtime Location indiqué \textit{Running} en haut à droite de la capture pr
 
 Le workflow comprend~: Webhook~1 (réception alertes Wazuh), Http~1 (POST /predict), Shuffle~Tools~1 (extraction label \texttt{\$http\_1.body.label}), puis branches conditionnelles vers Email~1 (HIGH), Email~2 (MEDIUM) et Shuffle~Tools~2 (LOW). Le Runtime Location indique \textit{Running} — le workflow est actif en permanence.
 
+\section*{Conclusion}
+Ce chapitre a établi les besoins du système et défini son
+architecture en cinq couches. La conception du module IA, avec
+ses onze features comportementales et son schéma de labellisation
+dynamique, constitue le cœur de la contribution. Le chapitre
+suivant détaille l'implémentation concrète de cette architecture.
+
 % ══════════════════════════════════════════════════════════════════
 \chapter{Implémentation}
 \label{chap:implementation}
+
+\section*{Introduction}
+Ce chapitre décrit l'implémentation concrète du système, depuis
+la mise en place de l'environnement technique jusqu'à l'intégration
+du pipeline complet. Il présente la génération du dataset, le
+développement du module IA et de l'API, ainsi que les difficultés
+rencontrées et leurs solutions.
 
 \section{Environnement}
 
@@ -834,24 +960,9 @@ La distribution finale est équilibrée entre les trois classes~: HIGH (44,5\%),
 \needspace{6cm}
 \section{Historique temporel en temps réel}
 
-\begin{lstlisting}[style=mycode,
-  caption={Historique en mémoire thread-safe (predict.py)}]
-_alert_history = defaultdict(lambda: deque(maxlen=500))
-_history_lock  = threading.Lock()
-WINDOW_5MIN, WINDOW_10MIN = 300, 600
-
-def _compute_temporal_features(srcip, rule_id, ts):
-    with _history_lock:
-        history = list(_alert_history[srcip])
-    freq   = sum(1 for t,_ in history
-                 if (ts-t).total_seconds() <= WINDOW_5MIN)
-    repeat = sum(1 for t,r in history
-                 if r==rule_id and (ts-t).total_seconds()<=WINDOW_10MIN)
-    return {'alert_frequency_5min': freq,
-            'repeat_rule_10min': repeat,
-            'hour_of_day': ts.hour,
-            'is_business_hours': 1 if ts.weekday()<5 and 8<=ts.hour<18 else 0}
-\end{lstlisting}
+L'implémentation complète de l'historique temporel en mémoire
+thread-safe, incluant le calcul des features de fréquence, est
+présentée en Annexe~\ref{annexe:code}.
 
 L'ordre d'appel est critique~: \texttt{\_compute\_temporal\_features} est appelé \textbf{avant} \texttt{\_update\_history} pour éviter de compter l'alerte courante dans son propre calcul de fréquence.
 
@@ -923,9 +1034,21 @@ La difficulté la plus significative sur le plan méthodologique est l'incompati
 \end{itemize}
 \end{tcolorbox}
 
+\section*{Conclusion}
+Ce chapitre a détaillé l'implémentation du système et documenté
+les difficultés techniques rencontrées. La contribution personnelle
+de l'auteur y a été mise en évidence. Le chapitre suivant présente
+les résultats expérimentaux et leur analyse critique.
+
 % ══════════════════════════════════════════════════════════════════
 \chapter{Expérimentation et résultats}
 \label{chap:resultats}
+
+\section*{Introduction}
+Ce chapitre présente les résultats obtenus, tant sur les
+performances du modèle de classification que sur le fonctionnement
+du pipeline complet. Il inclut une analyse critique des résultats
+et une discussion scientifique sur l'apport réel de la couche IA.
 
 \section{Performances du modèle V2}
 
@@ -1189,6 +1312,13 @@ Le modèle ne reproduit pas mécaniquement la règle de seuillage~: il apprend u
   \item \textbf{Mesures de latence robustes}~: 50+ mesures pour moyenne et écart-type.
 \end{enumerate}
 
+\section*{Conclusion}
+Ce chapitre a présenté les performances du modèle et validé le
+pipeline complet à travers trois scénarios de test. La discussion
+scientifique a établi l'apport réel de la couche ML par rapport à
+un simple seuillage, tout en documentant honnêtement les limites
+méthodologiques du système.
+
 % ══════════════════════════════════════════════════════════════════
 \chapter*{Conclusion générale}
 \addcontentsline{toc}{chapter}{Conclusion générale}
@@ -1274,6 +1404,73 @@ AbuseIPDB,
 
 % ══════════════════════════════════════════════════════════════════
 \appendix
+
+\chapter{Extraits de code source}
+\label{annexe:code}
+
+Cette annexe regroupe les extraits de code source référencés
+dans le corps du rapport.
+
+\section{Configuration Wazuh-Shuffle}
+
+\begin{lstlisting}[style=mycode, language=XML,
+  caption={Configuration intégration Wazuh-Shuffle (wazuh\_manager.conf)}]
+<localfile>
+  <log_format>syslog</log_format>
+  <location>/var/log/simulated_attacks.log</location>
+</localfile>
+<integration>
+  <name>shuffle</name>
+  <hook_url>http://192.168.56.100:3001/api/v1/hooks/
+    webhook_cf5a07df-bbad-4fa9-bb4c-cf2b59ec1718</hook_url>
+  <level>3</level>
+  <alert_format>json</alert_format>
+</integration>
+\end{lstlisting}
+
+\section{Fonction de labellisation comportementale}
+
+\begin{lstlisting}[style=mycode,
+  caption={Fonction make\_label — labellisation comportementale (train.py)}]
+def make_label(row):
+    level  = row['rule_level']
+    freq   = row['alert_frequency_5min']
+    repeat = row['repeat_rule_10min']
+    abuse  = row['ip_abuse_score']
+
+    if level >= 7:
+        return 'HIGH'
+    if level >= 5:
+        if freq >= 10 or repeat >= 8 or abuse >= 80:
+            return 'HIGH'   # escalade comportementale
+        return 'MEDIUM'
+    if level >= 3:
+        if freq >= 15 or repeat >= 10 or abuse >= 80:
+            return 'MEDIUM'  # escalade comportementale
+        return 'LOW'
+    return 'LOW'
+\end{lstlisting}
+
+\section{Historique temporel thread-safe}
+
+\begin{lstlisting}[style=mycode,
+  caption={Historique en mémoire thread-safe (predict.py)}]
+_alert_history = defaultdict(lambda: deque(maxlen=500))
+_history_lock  = threading.Lock()
+WINDOW_5MIN, WINDOW_10MIN = 300, 600
+
+def _compute_temporal_features(srcip, rule_id, ts):
+    with _history_lock:
+        history = list(_alert_history[srcip])
+    freq   = sum(1 for t,_ in history
+                 if (ts-t).total_seconds() <= WINDOW_5MIN)
+    repeat = sum(1 for t,r in history
+                 if r==rule_id and (ts-t).total_seconds()<=WINDOW_10MIN)
+    return {'alert_frequency_5min': freq,
+            'repeat_rule_10min': repeat,
+            'hour_of_day': ts.hour,
+            'is_business_hours': 1 if ts.weekday()<5 and 8<=ts.hour<18 else 0}
+\end{lstlisting}
 
 \chapter{Structure du projet}
 \label{annexe:structure}
